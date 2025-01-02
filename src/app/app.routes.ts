@@ -14,5 +14,9 @@ export const routes: Routes = [
     {
         path: '',
         loadChildren: () => import('./components/lecturas/lecturas.routes').then(lr => lr.LECTURA_ROUTES)
+    },
+    {
+        path: '',
+        loadChildren: () => import('./components/auth/auth.routes').then(ar => ar.AUTH_ROUTES)
     }
 ];

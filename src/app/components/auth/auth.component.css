@@ -1,0 +1,15 @@
+.img-logo {
+    width: 300px; /* Ajusta el ancho de la imagen al contenedor */
+    margin-bottom: 1rem;
+  /*  max-width: 400px; /* Limita el ancho máximo (ajústalo según tus necesidades) */
+  /*  max-height: 400px; /* Limita el alto máximo */
+  /*  object-fit: contain; /* Ajusta la imagen para que se mantenga dentro del contenedor */
+/*margin-bottom: 1rem; /* Agrega un espacio inferior si es necesario */
+}
+
+@media(max-width:400px){
+    .img-logo {
+        width: 200px; /* Ajusta el ancho de la imagen al contenedor */
+        margin-bottom: 1rem;
+    }
+}

@@ -3,22 +3,27 @@
     <hr>
     <div class="row mb-3 px-md-2 px-lg-4">
         <filtro-clientes />
-        <h6>Datos del cliente: </h6>
-        <datos-cliente />
+        <form #lecturaForm='ngForm'>
+            <h6>Datos del cliente: </h6>
+            <datos-cliente />
 
-        <div class="row">
-            <div class="col-12 col-lg-6 mb-4">
-                <label class="label-form-control" for="txt-codigo">Fecha de lectura:</label>
-                <input class="form-control" type="date">
-            </div>
-            <div class="col-12 col-lg-6 mb-4">
-                <label class="label-form-control" for="txt-codigo">Lectura:</label>
-                <input class="form-control" type="text">
-            </div>
-            <div class="col-12 mb-4">
-                <button class="btn btn-primary w-100">Registrar lectura</button>
-            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-4">
+                    <label class="label-form-control" for="txt-codigo">Fecha de lectura:</label>
+                    <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura"
+                        #fechaLectura='ngModel' required type="date" value="{{ obtenerFechaActual }}">
+                </div>
+                <div class="col-12 col-lg-6 mb-4">
+                    <label class="label-form-control" for="txt-codigo">Lectura:</label>
+                    <input class="form-control" [(ngModel)]="lectura.lecturaActual" name="lecturaActual"
+                        #lecturaActual='ngModel' required type="number">
+                </div>
+                <div class="col-12 mb-4">
+                    <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">Registrar
+                        lectura</button>
+                </div>
 
-        </div>
+            </div>
+        </form>
     </div>
 </div>

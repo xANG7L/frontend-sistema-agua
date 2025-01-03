@@ -3,6 +3,7 @@ import { FiltroClientesComponent } from './filtro-clientes/filtro-clientes.compo
 import { DatosClienteComponent } from './datos-cliente/datos-cliente.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Lectura } from '../../../models/lectura';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-form-lectura',
@@ -20,6 +21,13 @@ export class FormLecturaComponent {
 
   lectura: Lectura = new Lectura();
 
-  constructor(){}
+  constructor(){
+    //this.obtenerFechaActual();
+  }
+
+  obtenerFechaActual(): string {
+    //console.log(formatDate(new Date(),"yyyy-MM-dd", 'en-En'));
+    return formatDate(new Date(),'yyyy-MM-dd', 'en-En');
+  }
 
 }

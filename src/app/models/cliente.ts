@@ -6,5 +6,5 @@ export class Cliente {
     direccion: string = '';
     telefono: string = '';
     medidor: string = '';
-    comunidad: Comunidad = new Comunidad();
+    comunidad!: Comunidad;
 }

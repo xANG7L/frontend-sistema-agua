@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Proyecto } from '../../../../models/proyecto';
 import { ComunidadService } from '../../../../services/comunidad.service';
 import { Comunidad } from '../../../../models/comunidad';
@@ -15,6 +15,8 @@ export class FiltroClientesComponent implements OnInit {
   proyectos: Proyecto[] = [];
 
   comunidades: Comunidad[] = [];
+
+  @Output() comunidadEventEmitter: EventEmitter<Comunidad> = new EventEmitter();
 
   //filtrandoComunidades: boolean = false;
 
@@ -57,5 +59,6 @@ export class FiltroClientesComponent implements OnInit {
 
   emitirFiltroComunidad(event: any) {
     const codigo = event.target.value;
+    this.comunidadEventEmitter.emit(this.comunidades.find(comunidad => comunidad.codigo === codigo) || new Comunidad());
   }
 }

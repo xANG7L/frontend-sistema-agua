@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FiltroClientesComponent } from './filtro-clientes/filtro-clientes.component';
 import { DatosClienteComponent } from './datos-cliente/datos-cliente.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Lectura } from '../../../models/lectura';
 import { formatDate } from '@angular/common';
+import { Comunidad } from '../../../models/comunidad';
+import { Cliente } from '../../../models/cliente';
+import { LecturasService } from '../../../services/lecturas.service';
 
 @Component({
   selector: 'app-form-lectura',
@@ -17,17 +20,53 @@ import { formatDate } from '@angular/common';
   templateUrl: './form-lectura.component.html',
   styleUrl: './form-lectura.component.css'
 })
-export class FormLecturaComponent {
+export class FormLecturaComponent implements OnInit {
+
+  comunidad: Comunidad = new Comunidad();
 
   lectura: Lectura = new Lectura();
+  
+  errors: any = {};
 
-  constructor(){
+  constructor(
+    private service: LecturasService
+  ) {
     //this.obtenerFechaActual();
   }
+  ngOnInit(): void {
+   // this.lectura.fechaLectura = new Date();
+  }
 
-  obtenerFechaActual(): string {
-    //console.log(formatDate(new Date(),"yyyy-MM-dd", 'en-En'));
-    return formatDate(new Date(),'yyyy-MM-dd', 'en-En');
+  setearComunidad(comunidad: Comunidad) {
+    console.log(comunidad);
+    this.comunidad = comunidad;
+  }
+
+  setearCliente(cliente: Cliente) {
+    this.lectura.cliente = cliente;
+  }
+
+  fechaActual(): string {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  onSubmit(lecturaForm: NgForm): void {
+    console.log(this.lectura);
+    this.service.postLectura(this.lectura).subscribe({
+      next: res => {
+        alert('Lectura aniadida')
+        this.lectura = new Lectura();
+        lecturaForm.resetForm();
+      },
+      error: err => {
+        if (err.status == 400) {
+          console.log('error 400')
+        }
+        this.errors = err.error;
+        alert('lectura no ingresada,')
+      }
+    })
+
   }
 
 }

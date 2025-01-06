@@ -1,22 +1,32 @@
-    <div class="row mb-3">
-        <div class="col-12 col-lg-2">
-            <label class="label-form-control" for="txt-codigo">Codigo:</label>
-            <input class="form-control" type="text">
-        </div>
-        <div class="col-12 col-lg-5">
-            <label class="label-form-control" for="txt-codigo">Nombre:</label>
-            <input class="form-control" type="text">
-        </div>
-        <div class="col-12 col-lg-2">
-            <label class="label-form-control" for="txt-codigo">Telefono:</label>
-            <input class="form-control" type="text">
-        </div>
-        <div class="col-12 col-lg-3">
-            <label class="label-form-control" for="txt-codigo">Medidor:</label>
-            <input class="form-control" type="text">
-        </div>
-        <div class="col-12 col-lg-12">
-            <label class="label-form-control" for="txt-codigo">Direccion:</label>
-            <input class="form-control" type="text">
-        </div>
+<div class="row mb-3">
+    <div class="col-12 mb-3">
+        <label class="label-form-control" for="txt-codigo">Busqueda de cliente por nombre:</label>
+        <input class="form-control" type="text" matInput placeholder="Digite el nombre del cliente" [matAutocomplete]="auto" [formControl]="filtroClientes">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarCliente"
+            (optionSelected)="seleccionarCliente($event)">
+            @for (cliente of clientesFiltrados | async; track $index) {
+            <mat-option [value]="cliente">{{ cliente.nombre }}</mat-option>
+            }
+        </mat-autocomplete>
     </div>
+    <div class="col-12 col-lg-2 mb-3">
+        <label class="label-form-control" for="txt-codigo">Codigo:</label>
+        <input class="form-control" name="codigo" [(ngModel)]="cliente.codigo" #codigo='ngModel' type="text">
+    </div>
+    <div class="col-12 col-lg-5 mb-3">
+        <label class="label-form-control" for="txt-nombre">Nombre:</label>
+        <input class="form-control" name="nombre" [(ngModel)]="cliente.nombre" #nombre='ngModel' type="text">
+    </div>
+    <div class="col-12 col-lg-2 mb-3">
+        <label class="label-form-control" for="txt-codigo">Telefono:</label>
+        <input class="form-control" name="telefono" [(ngModel)]="cliente.telefono" #telefono='ngModel' type="text">
+    </div>
+    <div class="col-12 col-lg-3 mb-3">
+        <label class="label-form-control" for="txt-codigo">Medidor:</label>
+        <input class="form-control" name="medidor" [(ngModel)]="cliente.medidor" #medidor='ngModel' type="text">
+    </div>
+    <div class="col-12 col-lg-12">
+        <label class="label-form-control" for="txt-codigo">Direccion:</label>
+        <input class="form-control" name="direccion" [(ngModel)]="cliente.direccion" #direccion='ngModel' type="text">
+    </div>
+</div>

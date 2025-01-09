@@ -2,25 +2,43 @@
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card shadow-2-strong" style="border-radius: 1rem;">
-                    <div class="card-body p-md-3 p-lg-5">
+                <div class="card shadow-2-strong"
+                    style="border-radius: .3rem; border-top: 7px solid var(--color-principal)">
+                    <form class="card-body p-md-3 p-lg-5" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
                         <div class="text-center">
                             <img class="img-logo" src="https://disicomp.net/wp-content/uploads/2022/05/logo.png">
                             <h3 class="mb-5">Inicio de sesion</h3>
                         </div>
-                        <div data-mdb-input-init class="form-outline mb-4">
+                        <div data-mdb-input-init class="form-outline mb-3">
                             <label class="form-label" for="txt-username">Nombre de usuario:</label>
-                            <input id="txt-username" placeholder="Username*" class="form-control" />
+                            <input id="txt-username" placeholder="Username*" name="username" [(ngModel)]="auth.username"
+                                #username='ngModel' class="form-control" />
+                            @if (errors.username) {
+                            <div class="text-danger">
+                                {{errors.username}}
+                            </div>
+                            }
                         </div>
 
-                        <div data-mdb-input-init class="form-outline mb-4">
+                        <div data-mdb-input-init class="form-outline mb-3">
                             <label class="form-label" for="txt-password">Contraseña</label>
-                            <input type="password" placeholder="Password*" id="txt-password" class="form-control" />
+                            <input type="password" placeholder="Password*" id="txt-password" name="password"
+                                [(ngModel)]="auth.password" #password='ngModel' class="form-control" />
+
+                            @if (errors.password) {
+                            <div class="text-danger">
+                                {{errors.password}}
+                            </div>
+                            }
                         </div>
-
-                        <button class="btn btn-dark w-100" type="submit">Ingresar</button>
-
-                    </div>
+                        @if (errors.error) {
+                        <div class="text-danger mb-3">
+                            {{errors.error}}
+                        </div>
+                        }
+                        <button class="btn btn-dark w-100" [disabled]="ingresando" type="submit">{{ingresando ?
+                            'Ingresando...':'Login'}}</button>
+                    </form>
                 </div>
             </div>
         </div>

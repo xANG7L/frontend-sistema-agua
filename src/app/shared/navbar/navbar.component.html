@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg shadow" style="background-color: #2E5077;">
+<nav class="navbar sticky-top navbar-expand-lg shadow" style="background-color: var(--color-principal);">
     <div class="container-fluid">
         <a class="navbar-brand text-white" href="">Inicio</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -6,11 +6,12 @@
 
             <span class="text-white"><i class="fa-solid fa-bars"></i></span>
         </button>
+        @if (isAuth()) {
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false" >
+                        aria-expanded="false">
                         Lecturas
                     </a>
                     <ul class="dropdown-menu">
@@ -19,7 +20,19 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Utilidades
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" (click)="logOut()" routerLink="/login">Cerrar sesion</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
+        }
     </div>
 </nav>

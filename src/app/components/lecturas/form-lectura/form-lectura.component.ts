@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import { Comunidad } from '../../../models/comunidad';
 import { Cliente } from '../../../models/cliente';
 import { LecturasService } from '../../../services/lecturas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form-lectura',
@@ -25,7 +26,7 @@ export class FormLecturaComponent implements OnInit {
   comunidad: Comunidad = new Comunidad();
 
   lectura: Lectura = new Lectura();
-  
+
   errors: any = {};
 
   constructor(
@@ -34,7 +35,7 @@ export class FormLecturaComponent implements OnInit {
     //this.obtenerFechaActual();
   }
   ngOnInit(): void {
-   // this.lectura.fechaLectura = new Date();
+    // this.lectura.fechaLectura = new Date();
   }
 
   setearComunidad(comunidad: Comunidad) {
@@ -53,17 +54,24 @@ export class FormLecturaComponent implements OnInit {
   onSubmit(lecturaForm: NgForm): void {
     console.log(this.lectura);
     this.service.postLectura(this.lectura).subscribe({
-      next: res => {
-        alert('Lectura aniadida')
+      next: () => {
+        //alert('Lectura aniadida')
+        this.errors = {};
+        Swal.fire({
+          title: "Lectura registrada!",
+          icon: "success",
+          draggable: true
+        });
         this.lectura = new Lectura();
         lecturaForm.resetForm();
       },
       error: err => {
         if (err.status == 400) {
-          console.log('error 400')
+          //console.log('error 400')
+          this.errors = err.error;
+        } else {
+          alert('lectura no ingresada, revize la consola')
         }
-        this.errors = err.error;
-        alert('lectura no ingresada,')
       }
     })
 

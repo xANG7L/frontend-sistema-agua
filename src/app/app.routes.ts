@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: 'menu',
         component: DashboardComponent,
-       // canActivate: [userGuard]
+        canActivate: [userGuard]
     },
     {
         path: '',

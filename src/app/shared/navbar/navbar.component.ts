@@ -21,14 +21,10 @@ export class NavbarComponent {
   }
 
   logOut(): void {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      sessionStorage.removeItem('credenciales');
-    }
-   // window.location.reload();
-    this.router.navigate(['/login']);
+   // this.service.logOut();
   }
 
   isAuth(): boolean {
-    return this.service.isAdmin();
+    return this.service.isAuthenticated();
   }
 }

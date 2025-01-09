@@ -4,6 +4,7 @@ import { HOST } from '../data/utils.data';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Credencial } from '../models/credencial';
 import { Usuario } from '../models/usuario';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,16 @@ export class AuthService {
 
   url: string = `${HOST}/auth`
 
-  //credencial: Credencial = new Credencial();
-
-  private authState = new BehaviorSubject<Credencial>(this.getCredencialesFromSession());
-
-  authState$ = this.authState.asObservable();
+  credencial: Credencial = new Credencial();
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store<{ auth: any }>
   ) {
- //   this.credencial = this.getCredencialesFromSession();
+      this.store.select('auth').subscribe(state => {
+        this.credencial = state.credencial;
+      })
+    //   this.credencial = this.getCredencialesFromSession();
   }
 
   login(username: string, password: string): Observable<any> {
@@ -29,19 +30,19 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.authState.value.isAuth;
+    return this.credencial.isAuth;
   }
 
   isAdmin(): boolean {
-    return this.authState.value.admin;
+    return this.credencial.admin;
   }
 
   getUsuario(): Usuario {
-    return this.authState.value.usuario;
+    return this.credencial.usuario;
   }
 
   getUsuarioId(): number {
-    return this.authState.value.usuario.id;
+    return this.credencial.usuario.id;
   }
 
   getCredencialesFromSession(): Credencial {

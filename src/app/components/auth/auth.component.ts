@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { Credencial } from '../../models/credencial';
 import { Usuario } from '../../models/usuario';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loginHandler } from '../../store/auth/auth.actions';
 
 export interface AuthRequest {
   username: string;
@@ -34,51 +36,18 @@ export class AuthComponent {
   errors: any = {}
 
   constructor(
-    private service: AuthService,
+    private store: Store<{ auth: any }>,
     private router: Router
-  ) { }
+  ) {
+    this.store.select('auth').subscribe(state => {
+      this.errors = state.errors;
+      this.ingresando = state.cargando;
+    })
+  }
 
   onSubmit(loginForm: NgForm) {
     console.log(this.auth)
-    this.ingresando = true;
-    this.errors = {};
-    this.service.login(this.auth.username, this.auth.password).subscribe({
-      next: res => {
-        const credencial: Credencial = new Credencial();
-        credencial.usuario = res.usuario as Usuario;
-        credencial.admin = res.admin as boolean;
-        credencial.isAuth = true;
-        this.ingresando = false;
-        if (typeof window !== 'undefined' && window.localStorage) {
-          sessionStorage.setItem('credenciales', JSON.stringify(credencial));
-        }
-        Swal.fire({
-          icon: "success",
-          title: "Login exitoso",
-          text: res.mensaje,
-        }).then(() => {
-          this.router.navigate(['/menu']);
-          // this.router.navigate(['/menu']);
-          // this.router.navigate(['/menu']);
-          // this.router.navigate(['/menu']);
-          // this.router.navigate(['/menu']);
-
-        })
-        //setTimeout(() => this.router.navigate(['/menu']), 5000)
-
-      },
-      error: err => {
-        if (err.status == 500) {
-          Swal.fire({
-            icon: "error",
-            title: "Alerta",
-            text: "Error en el servidor, acceso no disponible!",
-          })
-        }
-        this.errors = err.error;
-        this.ingresando = false;
-      }
-    })
+    this.store.dispatch(loginHandler({ username: this.auth.username, password: this.auth.password }));
   }
 
 

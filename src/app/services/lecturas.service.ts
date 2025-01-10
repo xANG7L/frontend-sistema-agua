@@ -17,4 +17,8 @@ export class LecturasService {
   postLectura(lectura: Lectura): Observable<any> {
     return this.http.post<any>(`${this.url}`, lectura);
   }
+
+  getLecturasPorDia(fecha: Date): Observable<Lectura[]> {
+    return this.http.get<Lectura[]>(`${this.url}/consultar/lecturas-por-dia/${fecha}`);
+  }
 }

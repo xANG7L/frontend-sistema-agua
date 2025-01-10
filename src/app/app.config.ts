@@ -9,6 +9,8 @@ import { provideStore } from '@ngrx/store';
 import { authReducer } from './store/auth/auth.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './store/auth/auth.effects';
+import { lecturaReducer } from './store/lectura/lectura.reducer';
+import { LecturaEffects } from './store/lectura/lectura.effects';
 //import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
@@ -18,10 +20,12 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
     provideStore({
-        auth: authReducer
+        auth: authReducer,
+        lectura: lecturaReducer
     }),
     provideEffects(
-      AuthEffects
+      AuthEffects,
+      LecturaEffects
     )
 ]
 };

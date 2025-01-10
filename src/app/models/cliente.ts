@@ -7,4 +7,5 @@ export class Cliente {
     telefono: string = '';
     medidor: string = '';
     comunidad!: Comunidad;
+    comunidadStr?: string = '';
 }

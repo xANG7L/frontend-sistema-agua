@@ -8,7 +8,9 @@ import { Credencial } from "../../models/credencial";
 import { Usuario } from "../../models/usuario";
 import { HttpErrorResponse } from "@angular/common/http";
 import Swal from "sweetalert2";
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class AuthEffects {
 
     loginHandler$ = createEffect(() =>
@@ -27,7 +29,8 @@ export class AuthEffects {
                 }),
                 catchError((err) => {
                     const error: HttpErrorResponse = err;
-                    if (error.status != 400) {
+                    console.log(error.error);
+                    if (error.status == 500) {
                         Swal.fire({
                             icon: "error",
                             title: "Alerta",
@@ -43,11 +46,11 @@ export class AuthEffects {
     loginSuccess$ = createEffect(() => this.actions$.pipe(
         ofType(loginSuccess),
         tap((res) => {
-            this.snackBar.open(`!Bienvenido al sistema ${res.credencial.usuario.nombre} !`, 'X', {
+            this.snackBar.open(`!Bienvenido al sistema !`, 'X', {
                 horizontalPosition: "center",
-                verticalPosition: "top",
-                duration: 1000,
-                panelClass: 'success-snackbar'
+                verticalPosition: "bottom",
+                duration: 2000,
+                //panelClass: 'success-snackbar'
             })
             this.router.navigate(['/menu']);
         }
@@ -59,7 +62,6 @@ export class AuthEffects {
     constructor(
         private actions$: Actions,
         private service: AuthService,
-        //        private notificacionesService: NotificacionesService,
         private snackBar: MatSnackBar,  // Inyectar MatSnackBar
         private router: Router,
     ) { }

@@ -13,14 +13,14 @@ export class AuthService {
 
   url: string = `${HOST}/auth`
 
-  credencial: Credencial = new Credencial();
+  private _credencial: Credencial = new Credencial();
 
   constructor(
     private http: HttpClient,
     private store: Store<{ auth: any }>
   ) {
       this.store.select('auth').subscribe(state => {
-        this.credencial = state.credencial;
+        this._credencial = state.credencial;
       })
     //   this.credencial = this.getCredencialesFromSession();
   }
@@ -30,19 +30,19 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.credencial.isAuth;
+    return this._credencial.isAuth;
   }
 
   isAdmin(): boolean {
-    return this.credencial.admin;
+    return this._credencial.admin;
   }
 
   getUsuario(): Usuario {
-    return this.credencial.usuario;
+    return this._credencial.usuario;
   }
 
   getUsuarioId(): number {
-    return this.credencial.usuario.id;
+    return this._credencial.usuario.id;
   }
 
   getCredencialesFromSession(): Credencial {

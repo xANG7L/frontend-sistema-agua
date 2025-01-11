@@ -7,12 +7,14 @@
             <div class="col">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
-                      <h5 class="card-title">Descarga de archivo excel</h5>
-                      <p class="card-text">Ingrese el mes y año de lecturas ingresadas durante el periodo de toma de lecturas</p>
-                      <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
-                      <button (click)="download()" class="btn btn-success">Descargar</button>
+                        <h5 class="card-title">Descarga de archivo excel</h5>
+                        <p class="card-text">Ingrese el mes y año de lecturas ingresadas durante el periodo de toma de
+                            lecturas</p>
+                        <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
+                        <button (click)="download()" [disabled]="cargando" class="btn btn-success">{{ cargando?
+                            'Descargando...' : 'Descargar' }} </button>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>

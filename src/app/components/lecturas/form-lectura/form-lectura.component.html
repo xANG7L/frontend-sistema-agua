@@ -1,5 +1,6 @@
-<div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4" style="border-top: 7px solid var(--color-principal);">
-    <h3 class="pt-4 text-center">Ingreso de lecturas</h3>
+<div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
+    style="border-top: 7px solid var(--color-principal);">
+    <h3 class="pt-4 text-center">{{ lectura.id > 0 ? 'Modificacion ': 'Ingreso ' }} de lectura</h3>
     <hr>
     <div class="row mb-3 px-md-2 px-lg-4">
         <filtro-clientes (comunidadEventEmitter)="setearComunidad($event)" />
@@ -23,14 +24,15 @@
                     <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
                     <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual"
                         name="lecturaActual" #lecturaActual='ngModel' required type="number">
-                        @if (errors.lecturaActual) {
-                            <div class="text-danger">
-                                {{errors.lecturaActual}}
-                            </div>
-                            }
+                    @if (errors.lecturaActual) {
+                    <div class="text-danger">
+                        {{errors.lecturaActual}}
+                    </div>
+                    }
                 </div>
                 <div class="col-12 mb-4">
-                    <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">Registrar
+                    <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
+                        ? 'Modificar ': 'Registar ' }}
                         lectura</button>
                 </div>
             </div>

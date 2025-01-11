@@ -8,6 +8,8 @@ import { Comunidad } from '../../../models/comunidad';
 import { Cliente } from '../../../models/cliente';
 import { LecturasService } from '../../../services/lecturas.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
+import { error } from 'console';
 
 @Component({
   selector: 'app-form-lectura',
@@ -30,11 +32,19 @@ export class FormLecturaComponent implements OnInit {
   errors: any = {};
 
   constructor(
-    private service: LecturasService
+    private service: LecturasService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     //this.obtenerFechaActual();
   }
   ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const id: number = +(params.get('id') || '0');
+      if (id > 0) {
+        this.consultarProducto(id);
+      }
+    })
     // this.lectura.fechaLectura = new Date();
   }
 
@@ -53,28 +63,67 @@ export class FormLecturaComponent implements OnInit {
 
   onSubmit(lecturaForm: NgForm): void {
     console.log(this.lectura);
-    this.service.postLectura(this.lectura).subscribe({
-      next: () => {
-        //alert('Lectura aniadida')
-        this.errors = {};
-        Swal.fire({
-          title: "Lectura registrada!",
-          icon: "success",
-          draggable: true
-        });
-        this.lectura = new Lectura();
-        lecturaForm.resetForm();
-      },
-      error: err => {
-        if (err.status == 400) {
-          //console.log('error 400')
-          this.errors = err.error;
-        } else {
-          alert('lectura no ingresada, revize la consola')
+    if (this.lectura.id > 0) {
+      this.service.putActualizarLectura(this.lectura).subscribe({
+        next: () => {
+          this.errors = {};
+          Swal.fire({
+            title: "Lectura actualizada!",
+            icon: "success",
+            draggable: true
+          });
+          this.lectura = new Lectura();
+          lecturaForm.resetForm();
+          this.router.navigate(['/ingreso-lectura']);
+        },
+        error: (err) => {
+          if (err.status == 400) {
+            //console.log('error 400')
+            this.errors = err.error;
+          } else {
+            alert('lectura no actualizada, revize la consola')
+          }
         }
       }
-    })
+      )
+    } else {
+      this.service.postLectura(this.lectura).subscribe({
+        next: () => {
+          //alert('Lectura aniadida')
+          this.errors = {};
+          Swal.fire({
+            title: "Lectura registrada!",
+            icon: "success",
+            draggable: true
+          });
+          this.lectura = new Lectura();
+          lecturaForm.resetForm();
+          
+        },
+        error: err => {
+          if (err.status == 400) {
+            //console.log('error 400')
+            this.errors = err.error;
+          } else {
+            alert('lectura no ingresada, revize la consola')
+          }
+        }
+      })
+    }
 
+  }
+
+  consultarProducto(id: number): void {
+    this.service.getLecturaById(id).subscribe({
+      next: lectura => this.lectura = lectura,
+      error: err => {
+        Swal.fire({
+          title: 'Error!',
+          text: err.error,
+          icon: 'error'
+        }).then(() => this.router.navigate(['/consulta-lectura']))
+      }
+    })
   }
 
 }

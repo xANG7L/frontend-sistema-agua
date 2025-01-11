@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngrx/store';
+import { Credencial } from '../../models/credencial';
+import { logOut } from '../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-navbar',
@@ -13,18 +16,23 @@ import { AuthService } from '../../services/auth.service';
 })
 export class NavbarComponent {
 
+  private credencial!: Credencial;
+
   constructor(
-    private router: Router,
-    private service: AuthService
-  ){
+    private store: Store<{ auth: any }>
+  ) {
+    this.store.select('auth').subscribe((state) => {
+      this.credencial = state.credencial;
+    })
 
   }
 
-  logOut(): void {
-   // this.service.logOut();
+  cerrarSesion(): void {
+    // this.service.logOut();
+    this.store.dispatch(logOut());
   }
 
   isAuth(): boolean {
-    return this.service.isAuthenticated();
+    return this.credencial.isAuth;
   }
 }

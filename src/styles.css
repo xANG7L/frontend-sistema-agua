@@ -19,3 +19,59 @@ body {
 :root {
     --color-principal: #155E95;
 }
+
+.success-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #198754 !important;
+    }
+
+    .mdc-snackbar__label {
+        color: white !important;
+    }
+
+    .mat-mdc-button {
+        color: white !important;
+    }
+}
+
+.info-snackbar {
+    .mdc-snackbar__surface {
+        background-color: var(--negro-dark-mode) !important;
+    }
+
+    .mdc-snackbar__label {
+        color: white !important;
+    }
+
+    .mat-mdc-button {
+        color: white !important;
+    }
+}
+
+.error-snackbar {
+    .mdc-snackbar__surface {
+        background-color: #dc3545 !important;
+    }
+
+    .mdc-snackbar__label {
+        color: white !important;
+    }
+
+    .mat-mdc-button {
+        color: white !important;
+    }
+}
+
+.warning-snackbar {
+    .mdc-snackbar__surface {
+        background-color: rgb(255, 243, 205) !important;
+    }
+
+    .mdc-snackbar__label {
+        color: rgb(102, 77, 3) !important;
+    }
+
+    .mat-mdc-button {
+        color: rgb(102, 77, 3) !important;
+    }
+}

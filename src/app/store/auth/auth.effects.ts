@@ -2,7 +2,7 @@ import { AuthService } from "../../services/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { loginError, loginHandler, loginSuccess } from "./auth.actions";
+import { crearUsuario, errorCrearUsuario, logOut, loginError, loginHandler, loginSuccess, usuarioCreado } from "./auth.actions";
 import { catchError, exhaustMap, map, of, tap } from "rxjs";
 import { Credencial } from "../../models/credencial";
 import { Usuario } from "../../models/usuario";
@@ -58,6 +58,33 @@ export class AuthEffects {
         , { dispatch: false }
     )
 
+    logOut$ = createEffect(() => this.actions$.pipe(
+        ofType(logOut),
+        tap(() => {
+            if (typeof window !== 'undefined' && window.localStorage) {
+                sessionStorage.removeItem('credenciales');
+            }
+            this.router.navigate(['/login']);
+        }
+        ))
+        , { dispatch: false }
+    )
+
+    crearUsuario$ = createEffect(() => this.actions$.pipe(
+        ofType(crearUsuario),
+        exhaustMap(action => this.service.postCrearUsuario(action.usuario).pipe(
+            map((res) =>{
+                Swal.fire({
+                    title: 'Registardo',
+                    icon: 'success',
+                    text: 'Usuario creado exitosamente'
+                })
+                return usuarioCreado();
+            }),
+                
+            catchError((err) => of(errorCrearUsuario({ errors: err.error })))
+        ))
+    ))
 
     constructor(
         private actions$: Actions,

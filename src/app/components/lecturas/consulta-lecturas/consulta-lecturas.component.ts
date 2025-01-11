@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { obtenerLecturasPorDia } from '../../../store/lectura/lectura.actions';
 import { formatDate } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'consulta-lecturas',
@@ -22,7 +23,8 @@ export class ConsultaLecturasComponent {
   p: number = 1;
 
   constructor(
-    private store: Store<{ lectura: any }>
+    private store: Store<{ lectura: any }>,
+    private router: Router
   ) {
     this.store.select('lectura').subscribe(state => {
       this.lecturas = state.lecturas;
@@ -37,6 +39,10 @@ export class ConsultaLecturasComponent {
 
   fechaFormateada(date:Date): string{
     return formatDate(date,"dd/MM/yyyy",'en')
+  }
+
+  actualizarLecturaEvt(id:number): void{
+    this.router.navigate([`/modificar-lectura/${id}`]);
   }
 
 }

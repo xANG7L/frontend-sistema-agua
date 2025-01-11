@@ -46,7 +46,6 @@ export class AuthComponent {
   }
 
   onSubmit(loginForm: NgForm) {
- //   console.log(this.auth)
     this.store.dispatch(loginHandler({ username: this.auth.username, password: this.auth.password }));
     loginForm.resetForm();
   }

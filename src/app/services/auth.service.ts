@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Credencial } from '../models/credencial';
 import { Usuario } from '../models/usuario';
 import { Store } from '@ngrx/store';
+import { IUserForm } from '../components/auth/form-user/form-user.component';
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +20,18 @@ export class AuthService {
     private http: HttpClient,
     private store: Store<{ auth: any }>
   ) {
-      this.store.select('auth').subscribe(state => {
-        this._credencial = state.credencial;
-      })
+    this.store.select('auth').subscribe(state => {
+      this._credencial = state.credencial;
+    })
     //   this.credencial = this.getCredencialesFromSession();
   }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.url}/login`, { username, password });
+  }
+
+  postCrearUsuario(usuario: IUserForm): Observable<any> {
+    return this.http.post(this.url, usuario);
   }
 
   isAuthenticated(): boolean {

@@ -9,6 +9,10 @@ export const LECTURA_ROUTES: Routes = [
         component: FormLecturaComponent
     },
     {
+        path: 'modificar-lectura/:id',
+        component: FormLecturaComponent
+    },
+    {
         path: 'consulta-lectura',
         component: ConsultaLecturasComponent
     },

@@ -21,5 +21,9 @@ export const routes: Routes = [
     {
         path: '',
         loadChildren: () => import('./components/auth/auth.routes').then(ar => ar.AUTH_ROUTES)
+    },
+    {
+        path: '',
+        loadChildren: () => import('./components/utils/utils.routes').then(u => u.UTILS_ROUTES)
     }
 ];

@@ -11,6 +11,8 @@ import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './store/auth/auth.effects';
 import { lecturaReducer } from './store/lectura/lectura.reducer';
 import { LecturaEffects } from './store/lectura/lectura.effects';
+import { clienteReducer } from './store/cliente/clientes.reducer';
+import { ClienteEffects } from './store/cliente/clientes.effects';
 //import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
@@ -21,11 +23,13 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore({
         auth: authReducer,
-        lectura: lecturaReducer
+        lectura: lecturaReducer,
+        cliente: clienteReducer
     }),
     provideEffects(
       AuthEffects,
-      LecturaEffects
+      LecturaEffects,
+      ClienteEffects
     )
 ]
 };

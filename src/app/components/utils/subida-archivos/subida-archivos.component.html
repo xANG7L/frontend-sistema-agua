@@ -10,9 +10,11 @@
                         <h5 class="card-title">Subida de datos del maestro de clientes</h5>
                         <p class="card-text">Subida de excel de datos de clientes para sincronizar con optimo</p>
                         <p class="card-text text-danger">Asegurese de elegir el archivo correcto</p>
-                        <input type="file" (change)="onFileSelected($event)" placeholder="Seleccione el excel de clientes" accept=".xlsx" class="form-control mb-4">
-                        <button (click)="subidaArchivo()" [disabled]="migrandoArchivo" class="btn btn-success">Subir
-                            excel</button>
+                        <!-- <form> -->
+                            <input type="file" (change)="onFileSelected($event)" placeholder="Seleccione el excel de clientes" accept=".xlsx" class="form-control mb-4">
+                            <button (click)="subidaArchivo()" [disabled]="migrandoArchivo" class="btn btn-success">Subir
+                                excel</button>
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>

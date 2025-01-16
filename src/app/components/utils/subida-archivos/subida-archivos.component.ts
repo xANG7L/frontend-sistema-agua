@@ -1,6 +1,8 @@
 import { Component, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { subirExcelDeClientesParaSincronizarDatos } from '../../../store/cliente/clientes.actions';
+import { ClienteService } from '../../../services/cliente.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subida-archivos',
@@ -22,13 +24,9 @@ export class SubidaArchivosComponent {
   }
 
   subidaArchivo(): void {
-    // console.log(this.excelClientes);
-    // if (this.excelClientes) {
-      if (this.excelClientes != null) {
-      //  alert('distpach')
-        this.storeClientes.dispatch(subirExcelDeClientesParaSincronizarDatos({ file: this.excelClientes }));
-      }
-    // }
+    if (this.excelClientes != null) {
+      this.storeClientes.dispatch(subirExcelDeClientesParaSincronizarDatos({ file: this.excelClientes}));
+    }
   }
 
   onFileSelected(event: Event): void {

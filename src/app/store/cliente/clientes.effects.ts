@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 @Injectable()
 export class ClienteEffects {
 
-    subidaMasivaDeExcel$ = this.actions.pipe(
+    subirExcelDeClientesParaSincronizarDatos$ = this.actions.pipe(
         ofType(subirExcelDeClientesParaSincronizarDatos),
         exhaustMap(action => this.service.subidaMasivaDeExcelClientes(action.file).pipe(
             map(() => {

@@ -1,14 +1,31 @@
-<div class="row mb-3">
-    <div class="col-12 mb-3">
-        <label class="label-form-control" for="txt-codigo">Busqueda de cliente por nombre:</label>
-        <input class="form-control" type="text" matInput placeholder="Digite el nombre del cliente" [matAutocomplete]="auto" [formControl]="filtroClientes">
+<div class="row">
+    <div class="col-12 col-lg-3 mb-3">
+        <select id="inputState" [(ngModel)]="numberFilter" class="form-select">
+            @for (opcion of parametrosBusqueda; track $index) {
+            <option [value]="opcion.filter">{{ opcion.name }}</option>
+            }
+        </select>
+    </div>
+    <div class="col-12 col-lg-9 mb-3">
+        <input class="form-control" type="text" matInput
+            placeholder="Busqueda de clientes segun el parametro de busqueda..." [matAutocomplete]="auto"
+            [formControl]="filtroClientes">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarCliente"
             (optionSelected)="seleccionarCliente($event)">
             @for (cliente of clientesFiltrados | async; track $index) {
-            <mat-option [value]="cliente">{{ cliente.nombre }}</mat-option>
+            <mat-option [value]="cliente">{{ cliente.codigo }} - {{ cliente.nombre }}</mat-option>
             }
         </mat-autocomplete>
+        @if (filtrando) {
+        <div class="clearfix">
+            <div class="mt-2 spinner-border float-end spinner-border-sm text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        }
     </div>
+    @if (cliente) {
+    <h6>Datos del cliente: </h6>
     <div class="col-12 col-lg-2 mb-3">
         <label class="label-form-control" for="txt-codigo">Codigo:</label>
         <input class="form-control" name="codigo" [(ngModel)]="cliente.codigo" #codigo='ngModel' type="text">
@@ -25,8 +42,23 @@
         <label class="label-form-control" for="txt-codigo">Medidor:</label>
         <input class="form-control" name="medidor" [(ngModel)]="cliente.medidor" #medidor='ngModel' type="text">
     </div>
-    <div class="col-12 col-lg-12">
+    <div class="col-12 col-lg-12 mb-3">
         <label class="label-form-control" for="txt-codigo">Direccion:</label>
         <input class="form-control" name="direccion" [(ngModel)]="cliente.direccion" #direccion='ngModel' type="text">
     </div>
+    <div class="col-12 col-lg-3 mb-3">
+        <label class="label-form-control" for="txt-codigo">Comunidad:</label>
+        <input class="form-control" name="medidor" [(ngModel)]="cliente.comunidad.nombre" #medidor='ngModel'
+            type="text">
+    </div>
+    <div class="col-12 col-lg-3 mb-3">
+        <label class="label-form-control" for="txt-codigo">Proyecto:</label>
+        <input class="form-control" name="medidor" [(ngModel)]="cliente.comunidad.proyecto.nombre" #medidor='ngModel'
+            type="text">
+    </div>
+    } @else{
+    <div class="alert alert-primary text-center">
+        Seleccione el cliente a emitir la lectura
+    </div>
+    }
 </div>

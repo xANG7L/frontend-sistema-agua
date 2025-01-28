@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Observable, exhaustMap, map, of } from 'rxjs';
 import { ClienteService } from '../../../../services/cliente.service';
+import { IParamsClientes } from '../../../../interfaces/iparams.interface';
 
 @Component({
   selector: 'datos-cliente',
@@ -25,8 +26,6 @@ import { ClienteService } from '../../../../services/cliente.service';
 })
 export class DatosClienteComponent implements OnInit {
 
-  @Input() comunidad!: Comunidad;
-
   @Input() cliente!: Cliente;
 
   @Output() clienteEventEmitter: EventEmitter<Cliente> = new EventEmitter();
@@ -36,6 +35,25 @@ export class DatosClienteComponent implements OnInit {
   clientesFiltrados!: Observable<Cliente[]>;
 
   filtroClientes = new FormControl('');
+
+  filtrando: boolean = false;
+
+  parametrosBusqueda: IParamsClientes[] = [
+    {
+      filter: 1,
+      name: "Nombre"
+    },
+    {
+      filter: 2,
+      name: "Codigo"
+    },
+    {
+      filter: 1,
+      name: "Medidor"
+    },
+  ];
+
+  numberFilter: number = 1;
 
   constructor(
     private service: ClienteService
@@ -48,11 +66,9 @@ export class DatosClienteComponent implements OnInit {
   private _filter(value: string): Observable<Cliente[]> {
     let filterValue = typeof value === 'string' ? value.toLowerCase().trim() : '';
 
-    if (filterValue != '') {
-      console.log(value);
-      if (this.comunidad != undefined && this.comunidad.codigo != '') {
-        return this.service.getFiltrarClientesPorNombreYComunidad(filterValue, this.comunidad.codigo);
-      }
+    if (filterValue != '' && filterValue != undefined) {
+      //console.log('buscando');
+      this.filtrando = true;
       return this.service.getFiltrarClientesPorNombre(filterValue);
     }
     return of([]);
@@ -63,7 +79,10 @@ export class DatosClienteComponent implements OnInit {
       .pipe(
         exhaustMap(value => this._filter(value || '')
           .pipe(
-            map(clientes => clientes ? clientes : [])
+            map(clientes => {
+              this.filtrando = false;
+              return clientes ? clientes : []
+            })
           ))
       )
   }

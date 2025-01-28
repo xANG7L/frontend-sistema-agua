@@ -1,43 +1,38 @@
-<div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
+<div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4 p-4"
     style="border-top: 7px solid var(--color-principal);">
-    <h3 class="pt-4 text-center">{{ lectura.id > 0 ? 'Modificacion ': 'Ingreso ' }} de lectura</h3>
+    <h3 class="text-center">{{ lectura.id > 0 ? 'Modificacion ': 'Ingreso ' }} de lectura</h3>
     <hr>
-    <div class="row mb-3 px-md-2 px-lg-4">
-        <filtro-clientes (comunidadEventEmitter)="setearComunidad($event)" />
-        <form #lecturaForm='ngForm' (ngSubmit)="onSubmit(lecturaForm)">
-            <h6>Datos del cliente: </h6>
-            <datos-cliente [comunidad]="this.comunidad" [cliente]="this.lectura.cliente"
-                (clienteEventEmitter)="setearCliente($event)" />
-            @if (errors.cliente) {
-            <div class="text-danger mb-3">
-                {{errors.cliente}}
+    <!-- <filtro-clientes (comunidadEventEmitter)="setearComunidad($event)" /> -->
+    <form #lecturaForm='ngForm' class="row mb-3" (ngSubmit)="onSubmit(lecturaForm)">
+        <datos-cliente [cliente]="this.lectura.cliente" (clienteEventEmitter)="setearCliente($event)" />
+        @if (errors.cliente) {
+        <div class="text-danger mb-3">
+            {{errors.cliente}}
+        </div>
+        }
+        <div class="row">
+            <div class="col-12 col-lg-6 mb-4">
+                <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
+                <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura" id="txt-fechaLectura"
+                    #fechaLectura='ngModel' required type="date">
             </div>
-            }
-
-            <div class="row">
-                <div class="col-12 col-lg-6 mb-4">
-                    <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
-                    <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura"
-                        id="txt-fechaLectura" #fechaLectura='ngModel' required type="date">
+            <div class="col-12 col-lg-6 mb-4">
+                <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
+                <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual"
+                    name="lecturaActual" #lecturaActual='ngModel' required type="number">
+                @if (errors.lecturaActual) {
+                <div class="text-danger">
+                    {{errors.lecturaActual}}
                 </div>
-                <div class="col-12 col-lg-6 mb-4">
-                    <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
-                    <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual"
-                        name="lecturaActual" #lecturaActual='ngModel' required type="number">
-                    @if (errors.lecturaActual) {
-                    <div class="text-danger">
-                        {{errors.lecturaActual}}
-                    </div>
-                    }
-                </div>
-                <div class="col-12 mb-4">
-                    <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
-                        ? 'Modificar ': 'Registar ' }}
-                        lectura</button>
-                </div>
+                }
             </div>
-        </form>
-    </div>
+            <div class="col-12 mb-4">
+                <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
+                    ? 'Modificar ': 'Registar ' }}
+                    lectura</button>
+            </div>
+        </div>
+    </form>
 </div>
 <div class="my-2">
     <hr style="color: transparent;">

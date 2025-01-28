@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FiltroClientesComponent } from './filtro-clientes/filtro-clientes.component';
 import { DatosClienteComponent } from './datos-cliente/datos-cliente.component';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Lectura } from '../../../models/lectura';
-import { formatDate } from '@angular/common';
 import { Comunidad } from '../../../models/comunidad';
 import { Cliente } from '../../../models/cliente';
 import { LecturasService } from '../../../services/lecturas.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { error } from 'console';
 
 @Component({
   selector: 'app-form-lectura',
   standalone: true,
   imports: [
-    FiltroClientesComponent,
     DatosClienteComponent,
     ReactiveFormsModule,
     FormsModule
@@ -46,11 +42,6 @@ export class FormLecturaComponent implements OnInit {
       }
     })
     // this.lectura.fechaLectura = new Date();
-  }
-
-  setearComunidad(comunidad: Comunidad) {
-    console.log(comunidad);
-    this.comunidad = comunidad;
   }
 
   setearCliente(cliente: Cliente) {

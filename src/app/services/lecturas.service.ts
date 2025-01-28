@@ -2,13 +2,15 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Lectura } from '../models/lectura';
+import { HOST } from '../data/utils.data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LecturasService {
 
-  url: string = "http://localhost:8085/api/nasacayub-lecturas/lecturas";
+  //url: string = "http://localhost:8085/api/nasacayub-lecturas/lecturas";
+  url: string = `${HOST}/lecturas`
 
   constructor(
     private http: HttpClient

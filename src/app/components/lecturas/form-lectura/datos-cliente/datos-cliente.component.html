@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="row">
     <div class="col-12 col-lg-3 mb-3">
         <select id="inputState" [(ngModel)]="numberFilter" class="form-select">
@@ -10,6 +11,12 @@
         <input class="form-control" type="text" matInput
             placeholder="Busqueda de clientes segun el parametro de busqueda..." [matAutocomplete]="auto"
             [formControl]="filtroClientes">
+=======
+<div class="row mb-3">
+    <div class="col-12 mb-3">
+        <label class="label-form-control" for="txt-codigo-filtro">Busqueda de cliente por nombre:</label>
+        <input class="form-control" id="txt-codigo-filtro" type="text" matInput placeholder="Digite el nombre del cliente" [matAutocomplete]="auto" [formControl]="filtroClientes">
+>>>>>>> d9ce98ed19547d7ff3bc078288329eda38bd9322
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarCliente"
             (optionSelected)="seleccionarCliente($event)">
             @for (cliente of clientesFiltrados | async; track $index) {
@@ -28,23 +35,29 @@
     <h6>Datos del cliente: </h6>
     <div class="col-12 col-lg-2 mb-3">
         <label class="label-form-control" for="txt-codigo">Codigo:</label>
-        <input class="form-control" name="codigo" [(ngModel)]="cliente.codigo" #codigo='ngModel' type="text">
+        <input id="txt-codigo" class="form-control" name="codigo" [(ngModel)]="cliente.codigo" #codigo='ngModel' type="text">
     </div>
     <div class="col-12 col-lg-5 mb-3">
         <label class="label-form-control" for="txt-nombre">Nombre:</label>
-        <input class="form-control" name="nombre" [(ngModel)]="cliente.nombre" #nombre='ngModel' type="text">
+        <input id="txt-nombre" class="form-control" name="nombre" [(ngModel)]="cliente.nombre" #nombre='ngModel' type="text">
     </div>
     <div class="col-12 col-lg-2 mb-3">
-        <label class="label-form-control" for="txt-codigo">Telefono:</label>
-        <input class="form-control" name="telefono" [(ngModel)]="cliente.telefono" #telefono='ngModel' type="text">
+        <label class="label-form-control" for="txt-telefono">Telefono:</label>
+        <input id="txt-telefono" class="form-control" name="telefono" [(ngModel)]="cliente.telefono" #telefono='ngModel' type="text">
     </div>
     <div class="col-12 col-lg-3 mb-3">
-        <label class="label-form-control" for="txt-codigo">Medidor:</label>
-        <input class="form-control" name="medidor" [(ngModel)]="cliente.medidor" #medidor='ngModel' type="text">
+        <label class="label-form-control" for="txt-medidor">Medidor:</label>
+        <input id="txt-medidor" class="form-control" name="medidor" [(ngModel)]="cliente.medidor" #medidor='ngModel' type="text">
     </div>
+<<<<<<< HEAD
     <div class="col-12 col-lg-12 mb-3">
         <label class="label-form-control" for="txt-codigo">Direccion:</label>
         <input class="form-control" name="direccion" [(ngModel)]="cliente.direccion" #direccion='ngModel' type="text">
+=======
+    <div class="col-12 col-lg-12">
+        <label class="label-form-control" for="txt-direccion">Direccion:</label>
+        <input id="txt-direccion" class="form-control" name="direccion" [(ngModel)]="cliente.direccion" #direccion='ngModel' type="text">
+>>>>>>> d9ce98ed19547d7ff3bc078288329eda38bd9322
     </div>
     <div class="col-12 col-lg-3 mb-3">
         <label class="label-form-control" for="txt-codigo">Comunidad:</label>

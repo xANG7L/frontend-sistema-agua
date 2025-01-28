@@ -10,9 +10,11 @@
                         <h5 class="card-title">Descarga de archivo excel</h5>
                         <p class="card-text">Ingrese el mes y año de lecturas ingresadas durante el periodo de toma de
                             lecturas</p>
-                        <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
-                        <button (click)="download()" [disabled]="cargando" class="btn btn-success">{{ cargando?
-                            'Descargando...' : 'Descargar' }} </button>
+                        <!-- <form #downloadForm='ngModel' > -->
+                            <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
+                            <button (click)="download()" [disabled]="cargando" class="btn btn-success">{{ cargando?
+                                'Descargando...' : 'Descargar' }} </button>
+                        <!-- </form> -->
                     </div>
                 </div>
             </div>

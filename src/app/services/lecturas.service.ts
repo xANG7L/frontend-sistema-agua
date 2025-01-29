@@ -16,20 +16,33 @@ export class LecturasService {
     private http: HttpClient
   ) { }
 
-  postLectura(lectura: Lectura): Observable<any> {
-    return this.http.post<any>(`${this.url}`, lectura);
+  postLectura(lectura: Lectura, idUsuario: number): Observable<any> {
+    return this.http.post<any>(`${this.url}/${idUsuario}`, lectura);
   }
 
-  putActualizarLectura(lectura:Lectura):Observable<Lectura>{
-    return this.http.put<Lectura>(`${this.url}`,lectura)
+  subidaMasivaDeLecturas(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('subidaMasivaDeLecturas', file);
+    return this.http.post<any>(`${this.url}/migrar-excel`, formData, {
+      reportProgress: true,
+      observe: 'events', // Para obtener el progreso
+    });
   }
 
-  getLecturaById(id:number): Observable<Lectura>{
+  putActualizarLectura(lectura: Lectura): Observable<Lectura> {
+    return this.http.put<Lectura>(`${this.url}`, lectura)
+  }
+
+  getLecturaById(id: number): Observable<Lectura> {
     return this.http.get<Lectura>(`${this.url}/consultar/lectura/${id}`);
   }
 
   getLecturasPorDia(fecha: Date): Observable<Lectura[]> {
     return this.http.get<Lectura[]>(`${this.url}/consultar/lecturas-por-dia/${fecha}`);
+  }
+
+  getLecturasPorRangoDeFecha(fechaInicio: Date, fechaCierre: Date): Observable<Lectura[]> {
+    return this.http.get<Lectura[]>(`${this.url}/consultar/lecturas-por-fechas/${fechaInicio}/${fechaCierre}`);
   }
 
   generarExcelDeLecturas(fecha: Date): Observable<HttpResponse<Blob>> {

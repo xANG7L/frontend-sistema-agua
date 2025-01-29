@@ -26,7 +26,6 @@ export class ClienteService {
   subidaMasivaDeExcelClientes(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('excelClientes', file);
-    console.log(`${this.url}/migrar-excel`)
     return this.http.post(`${this.url}/migrar-excel`, formData, {
       reportProgress: true,
       observe: 'events', // Para obtener el progreso

@@ -1,4 +1,4 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -22,14 +22,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
     provideStore({
-        auth: authReducer,
-        lectura: lecturaReducer,
-        cliente: clienteReducer
+      auth: authReducer,
+      lectura: lecturaReducer,
+      cliente: clienteReducer
     }),
     provideEffects(
       AuthEffects,
       LecturaEffects,
       ClienteEffects
     )
-]
+  ]
 };

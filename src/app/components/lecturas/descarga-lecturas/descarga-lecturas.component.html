@@ -1,9 +1,9 @@
 <div class="container py-sm-2 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
     style="border-top: 5px solid var(--color-principal);">
     <div class="p-2 p-md-4">
-        <h1 class="h3 text-center">DESCARGA DE LECTURAS INGRESADAS SEGUN MES Y AÑO DE CARGOS</h1>
+        <h1 class="h4 fw-bold text-center">DESCARGA DE LECTURAS INGRESADAS SEGUN MES Y AÑO DE CARGOS</h1>
         <hr>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 mt-2 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
             <div class="col">
                 <div class="card h-100 shadow-lg">
                     <div class="card-body">
@@ -11,9 +11,11 @@
                         <p class="card-text">Ingrese el mes y año de lecturas ingresadas durante el periodo de toma de
                             lecturas</p>
                         <!-- <form #downloadForm='ngModel' > -->
-                            <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
-                            <button (click)="download()" [disabled]="cargando" class="btn btn-success">{{ cargando?
-                                'Descargando...' : 'Descargar' }} </button>
+                        <input type="date" [(ngModel)]="selectedDate" class="form-control mb-4">
+                        <button (click)="download()" [disabled]="cargando" class="w-100 btn btn-success">
+                            <i class="fa-solid fa-file-excel"></i>
+                            {{ cargando?
+                            'Descargando...' : 'Descargar' }} </button>
                         <!-- </form> -->
                     </div>
                 </div>

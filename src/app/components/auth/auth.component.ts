@@ -36,7 +36,6 @@ export class AuthComponent {
 
   onSubmit(loginForm: NgForm) {
     this.sharingData.handlerLoginEventEmitter.emit({ username: this.auth.username, password: this.auth.password });
-    loginForm.resetForm();
   }
 
 

@@ -1,0 +1,6 @@
+@media (max-width: 576px) { /* Tamaños 'sm' o más pequeños */
+    .custom-width {
+      width: 100% !important;
+    }
+  }
+  

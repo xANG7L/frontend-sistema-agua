@@ -7,6 +7,7 @@ import { Cliente } from '../../../models/cliente';
 import { LecturasService } from '../../../services/lecturas.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-form-lectura',
@@ -30,7 +31,8 @@ export class FormLecturaComponent implements OnInit {
   constructor(
     private service: LecturasService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authServie: AuthService
   ) {
     //this.obtenerFechaActual();
   }
@@ -78,7 +80,7 @@ export class FormLecturaComponent implements OnInit {
       }
       )
     } else {
-      this.service.postLectura(this.lectura).subscribe({
+      this.service.postLectura(this.lectura, this.authServie.usuarioId).subscribe({
         next: () => {
           //alert('Lectura aniadida')
           this.errors = {};
@@ -89,7 +91,7 @@ export class FormLecturaComponent implements OnInit {
           });
           this.lectura = new Lectura();
           lecturaForm.resetForm();
-          
+
         },
         error: err => {
           if (err.status == 400) {

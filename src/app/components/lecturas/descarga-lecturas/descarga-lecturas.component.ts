@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { descargaExcelDeIngresoDeLecturas } from '../../../store/lectura/lectura.actions';
+import Swal from 'sweetalert2';
 
 export interface IDescargaArchivo {
   fecha: Date;
@@ -32,12 +33,9 @@ export class DescargaLecturasComponent {
 
   download() {
     if (this.selectedDate) {
-      console.log(`Fecha seleccionada: ${this.selectedDate}`);
-      alert(`Fecha seleccionada: ${this.selectedDate}`);
       this.store.dispatch(descargaExcelDeIngresoDeLecturas({ fecha: this.selectedDate }));
     } else {
-      console.log('No se seleccionó ninguna fecha');
-      alert('No se seleccionó ninguna fecha');
+      Swal.fire('Error', 'Seleccione la fecha de cargos', 'info');
     }
   }
 

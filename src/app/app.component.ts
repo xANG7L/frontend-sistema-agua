@@ -48,7 +48,11 @@ export class AppComponent implements OnInit {
             '',
             'success'
           )
-          this.router.navigate(['/menu']);
+          if (this.authService.isAdmin) {
+            this.router.navigate(['/menu']);
+          } else {
+            this.router.navigate(['/ingreso-lectura']);
+          }
         },
         error: (err: HttpErrorResponse) => {
           if (err.status == 401) {

@@ -25,6 +25,6 @@ export class NavbarComponent {
   }
 
   isAuth(): boolean {
-    return this.authService.isAdmin;
+    return this.authService.isAuthenticated;
   }
 }

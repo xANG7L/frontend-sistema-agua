@@ -3,14 +3,23 @@
     <div class="p-2 p-md-4">
         <h3 class="h4 text-center">Consulta de lecturas ingresadas</h3>
         <hr>
-        <div class="row mb-4">
-            <div class="col-12 col-lg-3 col-xl-2">
+        <div class="row">
+            <div class="col-12 col-lg-4 mb-3">
                 <label for="txt-fecha" class="col-form-label">
-                    Fecha de cargos:
+                    Fecha de inicio:
                 </label>
+                <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaInicio">
             </div>
-            <div class="col-12 col-lg-4">
-                <input id="txt-fecha" type="date" class="form-control" (change)="consultarLecturas($event)">
+            <div class="col-12 col-lg-4 mb-3">
+                <label for="txt-fecha" class="col-form-label">
+                    Fecha de cierre:
+                </label>
+                <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaCierre">
+            </div>
+            <div class="col-12 col-lg-2 mb-3 align-self-end">
+                <button type="button" (click)="filtrarLecturas()" class="w-100 btn btn-dark">
+                    Filtrar
+                </button>
             </div>
         </div>
         @if (cargando) {
@@ -23,36 +32,44 @@
         @if (lecturas.length > 0) {
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
-                <thead>
+                <thead class="table-primary align-middle">
                     <tr>
                         <th>Fecha Lectura</th>
                         <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Medidor</th>
                         <th>Comunidad</th>
+                        @if (isAdmin) {
+                        <th>Lectura anterior</th>
+                        <th>Lectura actual</th>
+                        <th>Consumo</th>
+                        } @else {
                         <th>Lectura</th>
+                        }
                         <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (lectura of lecturas| paginate: { itemsPerPage: 10, currentPage: p }; track $index) {
                     <tr>
-                        <td>{{fechaFormateada(lectura.fechaLectura)}}</td>
+                        <td>{{lectura.fechaLectura | date:'dd/MM/yyyy'}}</td>
                         <td>{{lectura.cliente.codigo}}</td>
                         <td>{{lectura.cliente.nombre}}</td>
                         <td>{{lectura.cliente.medidor}}</td>
                         <td>{{ lectura.cliente.comunidadStr }}</td>
+                        @if (isAdmin) {
+                        <td>{{ lectura.lecturaAnterior }}</td>
                         <td>{{ lectura.lecturaActual }}</td>
+                        <td>{{ lectura.lecturaActual - lectura.lecturaAnterior }}</td>
+                        } @else {
+                        <td>{{ lectura.lecturaActual }}</td>
+                        }
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-outline-dark">
-                                    <i class="fa-solid fa-user"></i>
-                                </button>
                                 <button type="button" (click)="actualizarLecturaEvt(lectura.id)"
-                                    class="btn btn-outline-primary">
+                                    class="btn btn-outline-primary" matTooltip="Editar lectura">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <!-- <button type="button" class="btn btn-outline-primary">Right</button> -->
                             </div>
                         </td>
                     </tr>
@@ -65,7 +82,8 @@
                 nextLabel="Siguiente"></pagination-controls>
         </div>
         } @else {
-        <div class="alert alert-warning">
+        <div class="alert alert-warning text-center">
+            <i class="fa-solid fa-triangle-exclamation"></i>
             No hay lecturas ingresadas!
         </div>
         }

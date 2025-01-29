@@ -13,29 +13,12 @@
                             <label class="form-label" for="txt-username">Nombre de usuario:</label>
                             <input id="txt-username" placeholder="Username*" name="username" [(ngModel)]="auth.username"
                                 #username='ngModel' class="form-control" />
-                            @if (errors.username) {
-                            <div class="text-danger">
-                                {{errors.username}}
-                            </div>
-                            }
                         </div>
-
                         <div data-mdb-input-init class="form-outline mb-3">
                             <label class="form-label" for="txt-password">Contraseña</label>
                             <input type="password" placeholder="Password*" id="txt-password" name="password"
                                 [(ngModel)]="auth.password" #password='ngModel' class="form-control" />
-
-                            @if (errors.password) {
-                            <div class="text-danger">
-                                {{errors.password}}
-                            </div>
-                            }
                         </div>
-                        @if (errors.error) {
-                        <div class="text-danger mb-3">
-                            {{errors.error}}
-                        </div>
-                        }
                         <button class="btn btn-dark w-100" [disabled]="ingresando" type="submit">{{ingresando ?
                             'Ingresando...':'Login'}}</button>
                     </form>

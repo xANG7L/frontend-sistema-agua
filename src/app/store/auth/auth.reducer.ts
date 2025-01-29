@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Credencial } from "../../models/credencial";
-import { crearUsuario, errorCrearUsuario, loginError, loginSuccess, logOut, usuarioCreado } from "./auth.actions";
+import { crearUsuario, errorCrearUsuario, usuarioCreado } from "./auth.actions";
 
 export interface IAuthState {
     credencial: Credencial;
@@ -16,20 +16,6 @@ export const initialState: IAuthState = {
 
 export const authReducer = createReducer(
     initialState,
-    on(loginSuccess, (state, { credencial }) => ({
-        credencial,
-        errors: {},
-        cargando: false
-    })),
-    on(loginError, (state, { error }) => ({
-        ...state,
-        errors: error,
-        cargando: false
-    })),
-    on(logOut, (state) => ({
-        ...state,
-        credencial: new Credencial()
-    })),
     on(crearUsuario, (state) => ({
         ...state,
         cargando: true

@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import Swal from 'sweetalert2';
-import { Credencial } from '../../models/credencial';
-import { Usuario } from '../../models/usuario';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { loginHandler } from '../../store/auth/auth.actions';
+import { SharingDataService } from '../../services/sharing-data.service';
 
 export interface AuthRequest {
   username: string;
@@ -36,17 +30,12 @@ export class AuthComponent {
   errors: any = {}
 
   constructor(
-    private store: Store<{ auth: any }>,
-    private router: Router
+    private sharingData: SharingDataService,
   ) {
-    this.store.select('auth').subscribe(state => {
-      this.errors = state.errors;
-      this.ingresando = state.cargando;
-    })
   }
 
   onSubmit(loginForm: NgForm) {
-    this.store.dispatch(loginHandler({ username: this.auth.username, password: this.auth.password }));
+    this.sharingData.handlerLoginEventEmitter.emit({ username: this.auth.username, password: this.auth.password });
     loginForm.resetForm();
   }
 

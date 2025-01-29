@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HOST } from '../data/utils.data';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Credencial } from '../models/credencial';
-import { Usuario } from '../models/usuario';
-import { Store } from '@ngrx/store';
 import { IUserForm } from '../components/auth/form-user/form-user.component';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +17,9 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<{ auth: any }>
+    private router: Router
   ) {
-    this.store.select('auth').subscribe(state => {
-      this._credencial = state.credencial;
-    })
-    //   this.credencial = this.getCredencialesFromSession();
+    this.usuario;
   }
 
   login(username: string, password: string): Observable<any> {
@@ -34,35 +30,44 @@ export class AuthService {
     return this.http.post(this.url, usuario);
   }
 
-  isAuthenticated(): boolean {
+  get isAuthenticated(): boolean {
     return this._credencial.isAuth;
   }
 
-  isAdmin(): boolean {
+  get isAdmin(): boolean {
     return this._credencial.admin;
   }
 
-  getUsuario(): Usuario {
-    return this._credencial.usuario;
+  get usuario() {
+    if (this._credencial.isAuth) {
+      return this._credencial.usuario;
+    } else {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        if (sessionStorage.getItem('credenciales') != null) {
+          this._credencial = JSON.parse(sessionStorage.getItem('credenciales') || '{}');
+        }
+      }
+      return this._credencial.usuario;
+    }
   }
 
-  getUsuarioId(): number {
+  get usuarioId(): number {
     return this._credencial.usuario.id;
   }
 
-  getCredencialesFromSession(): Credencial {
+  set credenciales(credencial: Credencial) {
+    this._credencial = credencial;
     if (typeof window !== 'undefined' && window.localStorage) {
-      const credencialesString = sessionStorage.getItem('credenciales');
-      if (credencialesString) {
-        try {
-          return JSON.parse(credencialesString);
-        } catch (error) {
-          console.error('Error parsing credenciales from sessionStorage:', error);
-          return new Credencial();
-        }
-      }
+      sessionStorage.setItem('credenciales', JSON.stringify(this._credencial));
     }
-    return new Credencial();
+  }
+
+  logOut(): void {
+    this._credencial = new Credencial();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      sessionStorage.removeItem('credenciales');
+    }
+    this.router.navigate(['/login']);
   }
 
 

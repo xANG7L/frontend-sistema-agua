@@ -5,8 +5,8 @@ import { userGuard } from './auth/guards/user-guard.guard';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/menu',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        redirectTo: '/menu'
     },
     {
         path: 'menu',
@@ -16,7 +16,7 @@ export const routes: Routes = [
     {
         path: '',
         loadChildren: () => import('./components/lecturas/lecturas.routes').then(lr => lr.LECTURA_ROUTES),
-        canActivate: [userGuard]
+
     },
     {
         path: '',

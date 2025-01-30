@@ -48,7 +48,7 @@ export class DatosClienteComponent implements OnInit {
       name: "Codigo"
     },
     {
-      filter: 1,
+      filter: 3,
       name: "Medidor"
     },
   ];
@@ -69,7 +69,7 @@ export class DatosClienteComponent implements OnInit {
     if (filterValue != '' && filterValue != undefined) {
       //console.log('buscando');
       this.filtrando = true;
-      return this.service.getFiltrarClientesPorNombre(filterValue);
+      return this.service.getFiltrarClientesSegunFiltroSeleccionado(this.numberFilter,filterValue);
     }
     return of([]);
   }

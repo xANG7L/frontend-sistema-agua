@@ -9,6 +9,7 @@ import { LecturasService } from '../../../services/lecturas.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../services/auth.service';
+import { IParamsClientes } from '../../../interfaces/iparams.interface';
 
 @Component({
   selector: 'consulta-lecturas',
@@ -35,6 +36,24 @@ export class ConsultaLecturasComponent {
   p: number = 1;
 
   isAdmin: boolean = false;
+
+  parametrosBusqueda: IParamsClientes[] = [
+    {
+      filter: 1,
+      name: "Nombre de cliente"
+    },
+    {
+      filter: 2,
+      name: "Codigo"
+    },
+    {
+      filter: 3,
+      name: "Medidor"
+    },
+  ];
+
+  numberFilter: number = 1;
+
 
   constructor(
     private router: Router,
@@ -66,7 +85,24 @@ export class ConsultaLecturasComponent {
     }
   }
 
-
+  filtroLecturasPorCliente(event: any): void {
+    const value = event.target.value;
+    if (value != '' && value != undefined) {
+      this.cargando = true;
+      this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, value, this.numberFilter).subscribe({
+        next: (lecturas) => {
+          this.cargando = false;
+          this.lecturas = lecturas
+        },
+        error: (err: HttpErrorResponse) => {
+          this.cargando = false;
+          this.lecturas = [];
+        }
+      })
+    } else {
+      this.filtrarLecturas();
+    }
+  }
 
   actualizarLecturaEvt(id: number): void {
     this.router.navigate([`/modificar-lectura/${id}`]);

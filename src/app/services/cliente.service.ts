@@ -19,6 +19,10 @@ export class ClienteService {
     return this.http.get<Cliente[]>(`${this.url}/filtro-por-nombre/${nombre}`)
   }
 
+  getFiltrarClientesSegunFiltroSeleccionado(filter: number, value: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${this.url}/filtro-cliente/${filter}/${value}`)
+  }
+
   getFiltrarClientesPorNombreYComunidad(nombre: string, codigo: string): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.url}/filtro-por-comunidad/${codigo}/${nombre}`)
   }

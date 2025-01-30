@@ -29,6 +29,15 @@ export class LecturasService {
     });
   }
 
+  postConsultaDeClientesPorFiltro(fechaInicio: Date, fechaCierre: Date, value: string, filter: number): Observable<Lectura[]> {
+    return this.http.post<Lectura[]>(`${this.url}/consultar/segun-filtro`, {
+      fechaInicio,
+      fechaCierre,
+      value,
+      filter
+    });
+  }
+
   putActualizarLectura(lectura: Lectura): Observable<Lectura> {
     return this.http.put<Lectura>(`${this.url}`, lectura)
   }

@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Comunidad } from '../../../../models/comunidad';
 import { Cliente } from '../../../../models/cliente';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Observable, exhaustMap, map, of } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, exhaustMap, filter, map, of } from 'rxjs';
 import { ClienteService } from '../../../../services/cliente.service';
 import { IParamsClientes } from '../../../../interfaces/iparams.interface';
 
@@ -29,8 +28,6 @@ export class DatosClienteComponent implements OnInit {
   @Input() cliente!: Cliente;
 
   @Output() clienteEventEmitter: EventEmitter<Cliente> = new EventEmitter();
-
-  clientes: Cliente[] = []
 
   clientesFiltrados!: Observable<Cliente[]>;
 
@@ -75,17 +72,21 @@ export class DatosClienteComponent implements OnInit {
   }
 
   inicializarFiltros(): void {
-    this.clientesFiltrados = this.filtroClientes.valueChanges
+    this.clientesFiltrados = this.filtroClientes.valueChanges //MUCHO MEJOR
       .pipe(
-        exhaustMap(value => this._filter(value || '')
-          .pipe(
+        debounceTime(300), // Controla la frecuencia de las emisiones
+        distinctUntilChanged(), // Solo pasa valores distintos al anterior
+        exhaustMap(value =>
+          this._filter(value || '').pipe(
             map(clientes => {
-              this.filtrando = false;
-              return clientes ? clientes : []
+              this.filtrando = false; // Terminar el indicador de carga
+              return clientes || []; // Asegurarse de devolver una lista vacía si no hay resultados
             })
-          ))
-      )
+          )
+        )
+      );
   }
+  
 
   seleccionarCliente(event: MatAutocompleteSelectedEvent): void {
     const cliente = event.option.value as Cliente;

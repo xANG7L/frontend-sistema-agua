@@ -20,6 +20,7 @@ export class ClienteService {
   }
 
   getFiltrarClientesSegunFiltroSeleccionado(filter: number, value: string): Observable<Cliente[]> {
+    console.log('realizando peticion')
     return this.http.get<Cliente[]>(`${this.url}/filtro-cliente/${filter}/${value}`)
   }
 

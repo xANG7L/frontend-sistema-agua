@@ -25,14 +25,15 @@
         <hr>
         <div class="row">
             <div class="col-12 col-lg-4 mb-3">
-                <select id="inputState" [disabled]="!fechaInicio || !fechaCierre" [(ngModel)]="numberFilter" class="form-select">
+                <select id="inputState" [disabled]="!fechaInicio || !fechaCierre" [(ngModel)]="numberFilter"
+                    class="form-select">
                     @for (opcion of parametrosBusqueda; track $index) {
                     <option [value]="opcion.filter">{{ opcion.name }}</option>
                     }
                 </select>
             </div>
             <div class="col-12 col-lg-8 mb-3 mb-3">
-                <input type="text" [disabled]="!fechaInicio || !fechaCierre" (input)="filtroLecturasPorCliente($event)" class="form-control" name=""
+                <input type="text" [formControl]="busquedaControl" class="form-control"
                     placeholder="Busqueda de clientes por nombre" id="">
             </div>
         </div>

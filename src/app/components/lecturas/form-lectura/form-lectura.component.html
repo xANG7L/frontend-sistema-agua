@@ -1,6 +1,6 @@
 <div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4 p-4"
     style="border-top: 7px solid var(--color-principal);">
-    <h3 class="text-center">{{ lectura.id > 0 ? 'Modificacion ': 'Ingreso ' }} de lectura</h3>
+    <h3 class="text-center">{{ lectura.id > 0 ? 'MODIFICACION ': 'INGRESO ' }} DE LECTURA</h3>
     <hr>
     <!-- <filtro-clientes (comunidadEventEmitter)="setearComunidad($event)" /> -->
     <form #lecturaForm='ngForm' class="row mb-3" (ngSubmit)="onSubmit(lecturaForm)">
@@ -10,7 +10,7 @@
             {{errors.cliente}}
         </div>
         }
-        <div class="row">
+        <!-- <div class="row"> -->
             <div class="col-12 col-lg-6 mb-4">
                 <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
                 <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura" id="txt-fechaLectura"
@@ -31,7 +31,7 @@
                     ? 'Modificar ': 'Registrar ' }}
                     lectura</button>
             </div>
-        </div>
+        <!-- </div> -->
     </form>
 </div>
 <div class="my-2">

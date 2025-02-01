@@ -21,9 +21,11 @@
                         <li>
                             <a class="dropdown-item" routerLink="/consulta-lectura">Consulta de lecturas</a>
                         </li>
+                        @if (isAdmin()) {
                         <li>
                             <a class="dropdown-item" routerLink="/descarga-lecturas">Descarga de lecturas</a>
                         </li>
+                        }
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -35,12 +37,14 @@
                         <li>
                             <a class="dropdown-item" (click)="cerrarSesion()" routerLink="/login">Cerrar sesion</a>
                         </li>
-                        <li>
-                            <a class="dropdown-item" routerLink="/crear-usuario" >Crear usuario</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" routerLink="/subida-archivos">Subida de ficheros de datos</a>
-                        </li>
+                        @if (isAdmin()) {
+                            <li>
+                                <a class="dropdown-item" routerLink="/crear-usuario">Crear usuario</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" routerLink="/subida-archivos">Subida de ficheros de datos</a>
+                            </li>
+                        }
                     </ul>
                 </li>
             </ul>

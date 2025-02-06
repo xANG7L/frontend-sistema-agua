@@ -10,10 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../services/auth.service';
 import { IParamsClientes } from '../../../interfaces/iparams.interface';
-import { debounceTime, distinctUntilChanged, exhaustMap, map, Observable, of } from 'rxjs';
-import { MatInput, MatInputModule } from '@angular/material/input';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { debounceTime, distinctUntilChanged, exhaustMap, map, Observable, of, Subject } from 'rxjs';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'consulta-lecturas',
@@ -44,7 +42,7 @@ export class ConsultaLecturasComponent implements OnInit {
 
   isAdmin: boolean = false;
 
-  busquedaControl = new FormControl('');
+  // busquedaControl = new FormControl('');
 
   parametrosBusqueda: IParamsClientes[] = [
     {
@@ -60,6 +58,8 @@ export class ConsultaLecturasComponent implements OnInit {
       name: "Medidor"
     },
   ];
+
+  busquedaValue = new Subject<string>();
 
   numberFilter: number = 1;
 
@@ -100,49 +100,34 @@ export class ConsultaLecturasComponent implements OnInit {
   private _filter(value: string): Observable<Lectura[]> {
     let filterValue = typeof value === 'string' ? value.toLowerCase().trim() : '';
     console.log('buscando');
-    if (filterValue != '' && filterValue != undefined && this.fechaInicio && this.fechaCierre) {
+    if (this.fechaInicio && this.fechaCierre) {
       this.cargando = true;
-      return this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, filterValue, this.numberFilter);
+      if (filterValue != '' && filterValue != undefined) {
+        return this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, filterValue, this.numberFilter);
+      }
+      return this.lecturaService.getLecturasPorRangoDeFecha(this.fechaInicio, this.fechaCierre);
     }
     return of([]);
   }
 
+
   inicializarFiltros(): void {
-    // console.log('buscando');
-    this.lecturasFiltradas = this.busquedaControl.valueChanges //MUCHO MEJOR
-      .pipe(
-        debounceTime(300), // Controla la frecuencia de las emisiones
-        distinctUntilChanged(), // Solo pasa valores distintos al anterior
-        exhaustMap(value =>
-          this._filter(value || '').pipe(
-            map(lecturas => {
-              this.cargando = false; // Terminar el indicador de carga
-              this.lecturas = lecturas;
-              return lecturas || []; // Asegurarse de devolver una lista vacía si no hay resultados
-            })
-          )
-        )
-      );
+    this.busquedaValue.pipe(
+      debounceTime(300), // Espera 300ms después de la última tecla presionada
+      distinctUntilChanged()
+    ).subscribe(value => {
+      this._filter(value).subscribe(lecturas => {
+        this.cargando = false;
+        this.lecturas = lecturas;
+      });
+    });
+
   }
 
-  // filtroLecturasPorCliente(event: any): void {
-  //   const value = event.target.value;
-  //   if (value != '' && value != undefined) {
-  //     this.cargando = true;
-  //     this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, value, this.numberFilter).subscribe({
-  //       next: (lecturas) => {
-  //         this.cargando = false;
-  //         this.lecturas = lecturas
-  //       },
-  //       error: (err: HttpErrorResponse) => {
-  //         this.cargando = false;
-  //         this.lecturas = [];
-  //       }
-  //     })
-  //   } else {
-  //     this.filtrarLecturas();
-  //   }
-  // }
+  onKeyUp(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.busquedaValue.next(value);
+  }
 
   actualizarLecturaEvt(id: number): void {
     this.router.navigate([`/modificar-lectura/${id}`]);

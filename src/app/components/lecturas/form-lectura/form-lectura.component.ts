@@ -41,6 +41,8 @@ export class FormLecturaComponent implements OnInit {
       const id: number = +(params.get('id') || '0');
       if (id > 0) {
         this.consultarProducto(id);
+      } else {
+        this.lectura.fechaLectura = this.fechaActual();
       }
     })
     // this.lectura.fechaLectura = new Date();
@@ -50,9 +52,9 @@ export class FormLecturaComponent implements OnInit {
     this.lectura.cliente = cliente;
   }
 
-  fechaActual(): string {
+  fechaActual(): any {
     return new Date().toISOString().slice(0, 10);
-  }
+  }  
 
   onSubmit(lecturaForm: NgForm): void {
     console.log(this.lectura);

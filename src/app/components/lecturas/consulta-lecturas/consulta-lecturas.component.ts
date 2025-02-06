@@ -11,7 +11,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../../../services/auth.service';
 import { IParamsClientes } from '../../../interfaces/iparams.interface';
 import { debounceTime, distinctUntilChanged, exhaustMap, map, Observable, of } from 'rxjs';
-import { MatInput } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'consulta-lecturas',
@@ -22,8 +24,6 @@ import { MatInput } from '@angular/material/input';
     DatePipe,
     MatTooltipModule,
     ReactiveFormsModule,
-    MatInput,
-    AsyncPipe
   ],
   templateUrl: './consulta-lecturas.component.html',
   styleUrl: './consulta-lecturas.component.css'
@@ -108,6 +108,7 @@ export class ConsultaLecturasComponent implements OnInit {
   }
 
   inicializarFiltros(): void {
+    // console.log('buscando');
     this.lecturasFiltradas = this.busquedaControl.valueChanges //MUCHO MEJOR
       .pipe(
         debounceTime(300), // Controla la frecuencia de las emisiones

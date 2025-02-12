@@ -11,26 +11,38 @@
         </div>
         }
         <!-- <div class="row"> -->
-            <div class="col-12 col-lg-6 mb-4">
-                <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
-                <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura" id="txt-fechaLectura"
-                    #fechaLectura='ngModel' required type="date">
+        <div class="col-12 col-lg-6 mb-4">
+            <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
+            <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura" id="txt-fechaLectura"
+                #fechaLectura='ngModel' required type="date">
+        </div>
+        <!-- @if (isAdmin) {
+        <div class="col-12 col-lg-6 mb-4">
+            <label class="label-form-control" for="txt-lecturaActual">Lectura anterior:</label>
+            <input class="form-control" [(ngModel)]="lectura.lecturaAnterior" id="txt-lecturaActual"
+                name="lecturaAnterior" #lecturaAnterior='ngModel' required type="number">
+            @if (errors.lecturaActual) {
+            <div class="text-danger">
+                {{errors.lecturaActual}}
             </div>
-            <div class="col-12 col-lg-6 mb-4">
-                <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
-                <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual"
-                    name="lecturaActual" #lecturaActual='ngModel' required type="number">
-                @if (errors.lecturaActual) {
-                <div class="text-danger">
-                    {{errors.lecturaActual}}
-                </div>
-                }
+            }
+        </div>
+        } -->
+        <div class="col-12 col-lg-6 mb-4">
+            <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
+            <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual" name="lecturaActual"
+                #lecturaActual='ngModel' required type="number">
+            @if (errors.lecturaActual) {
+            <div class="text-danger">
+                {{errors.lecturaActual}}
             </div>
-            <div class="col-12 mb-4">
-                <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
-                    ? 'Modificar ': 'Registrar ' }}
-                    lectura</button>
-            </div>
+            }
+        </div>
+        <div class="col-12 mb-4">
+            <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
+                ? 'Modificar ': 'Registrar ' }}
+                lectura</button>
+        </div>
         <!-- </div> -->
     </form>
 </div>

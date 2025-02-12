@@ -38,6 +38,17 @@ export class LecturasService {
     });
   }
 
+  postConsultaDeClientesPorFiltroPorUsuario(fechaInicio: Date, fechaCierre: Date, value: string, filter: number, idUsuario: number): Observable<Lectura[]> {
+    // console.log(idUsuario);
+    return this.http.post<Lectura[]>(`${this.url}/consultar/segun-filtro-usuario`, {
+      fechaInicio,
+      fechaCierre,
+      value,
+      filter,
+      idUsuario
+    });
+  }
+
   putActualizarLectura(lectura: Lectura): Observable<Lectura> {
     return this.http.put<Lectura>(`${this.url}`, lectura)
   }
@@ -52,6 +63,11 @@ export class LecturasService {
 
   getLecturasPorRangoDeFecha(fechaInicio: Date, fechaCierre: Date): Observable<Lectura[]> {
     return this.http.get<Lectura[]>(`${this.url}/consultar/lecturas-por-fechas/${fechaInicio}/${fechaCierre}`);
+  }
+
+  getLecturasPorRangoDeFechaYUsuario(fechaInicio: Date, fechaCierre: Date, idUsuario: number): Observable<Lectura[]> {
+    console.log(`${this.url}/consultar/lecturas-por-fechas/${fechaInicio}/${fechaCierre}/${idUsuario}`)
+    return this.http.get<Lectura[]>(`${this.url}/consultar/lecturas-por-fechas/${fechaInicio}/${fechaCierre}/${idUsuario}`);
   }
 
   generarExcelDeLecturas(fecha: Date): Observable<HttpResponse<Blob>> {

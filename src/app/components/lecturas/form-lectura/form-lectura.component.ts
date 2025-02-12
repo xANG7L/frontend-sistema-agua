@@ -26,6 +26,8 @@ export class FormLecturaComponent implements OnInit {
 
   lectura: Lectura = new Lectura();
 
+  isAdmin: boolean = false;
+
   errors: any = {};
 
   constructor(
@@ -45,6 +47,7 @@ export class FormLecturaComponent implements OnInit {
         this.lectura.fechaLectura = this.fechaActual();
       }
     })
+    this.isAdmin = this.authServie.isAdmin;
     // this.lectura.fechaLectura = new Date();
   }
 

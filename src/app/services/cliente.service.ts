@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente';
@@ -35,6 +35,15 @@ export class ClienteService {
       reportProgress: true,
       observe: 'events', // Para obtener el progreso
     });
+  }
+
+  descargarReporteClientesSinLecturas(fechaCargo: Date): Observable<HttpResponse<Blob>> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.get(`${this.url}/reportes/cliente-sin-lectura/${fechaCargo}`, {
+      headers,
+      responseType: 'blob',
+      observe: 'response'
+    })
   }
 
 }

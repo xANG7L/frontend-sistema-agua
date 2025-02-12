@@ -1,7 +1,7 @@
 <div class="container py-sm-2 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
     style="border-top: 5px solid var(--color-principal);">
     <div class="p-2 p-md-4">
-        <h3 class="h3 text-center">CONSULTA DE LECTURAS INGRESADAS</h3>
+        <h3 class="h3 text-center"> {{ isAdmin ? 'CONSULTA DE LECTURAS INGRESADAS' : 'CONSULTA DE SUS LECTURAS INGRESADAS' }} </h3>
         <hr>
         <div class="row">
             <div class="col-12 col-lg-4 mb-3">
@@ -33,8 +33,8 @@
                 </select>
             </div>
             <div class="col-12 col-lg-8 mb-3 mb-3">
-                <input type="text" [disabled]="!fechaInicio || !fechaCierre" (keyup)="onKeyUp($event)" class="form-control"
-                    placeholder="Busqueda de clientes por nombre" id="">
+                <input type="text" [disabled]="!fechaInicio || !fechaCierre" (keyup)="onKeyUp($event)"
+                    class="form-control" placeholder="Busqueda de clientes por nombre" id="">
             </div>
         </div>
         @if (cargando) {

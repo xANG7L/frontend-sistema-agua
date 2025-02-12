@@ -1,0 +1,54 @@
+<div class="container bg-white my-3 rounded p-4 shadow">
+    <h4 class="text-center fw-bold">REPORTERIA AUXILIAR</h4>
+    <hr>
+    <div class="row mb-4">
+        <div class="col-12 col-lg-4">
+            <label for="" class="form-label">Fecha de inicio:</label>
+            <input type="date" [(ngModel)]="fechaInicio" class="form-control">
+        </div>
+        <div class="col-12 col-lg-4">
+            <label for="" class="form-label">Fecha de cierre:</label>
+            <input type="date" [(ngModel)]="fechaCierre" class="form-control">
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col">
+            <div class="card w-100 h-100">
+                <div class="row h-100 g-0">
+                    <div class="col-md-4">
+                        <button [disabled]="descargandoArchivo" [matTooltip]="'Click para generar el reporte'"
+                            (click)="generarReporteClientes()" class="w-100 h-100 btn btn-outline-danger">
+                            <i class="fa-solid fa-file-pdf fa-2x"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">Reporte de clientes que no se han ingresado cargos segun mes y año de
+                                cargos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card w-100 h-100">
+                <div class="row h-100 g-0">
+                    <div class="col-md-4">
+                        <button [disabled]="descargandoArchivo" [matTooltip]="'Click para generar el reporte'"
+                            (click)="descargarExcelLecturas()" class="w-100 h-100 btn btn-outline-success">
+                            <i class="fa-solid fa-file-excel fa-2x"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">Descarga de lecturas en formato excel (.xlsx) para migrar lecturas a
+                                OPTIMO. <br>Asegurese de seleccionar mes y año de cargos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

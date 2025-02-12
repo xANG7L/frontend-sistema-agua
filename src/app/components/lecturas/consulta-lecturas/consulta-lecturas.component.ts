@@ -42,6 +42,8 @@ export class ConsultaLecturasComponent implements OnInit {
 
   isAdmin: boolean = false;
 
+  idUsuario: number = 0;
+
   // busquedaControl = new FormControl('');
 
   parametrosBusqueda: IParamsClientes[] = [
@@ -69,29 +71,48 @@ export class ConsultaLecturasComponent implements OnInit {
     private lecturaService: LecturasService,
     private authService: AuthService
   ) {
-    this.isAdmin = authService.isAdmin
   }
   ngOnInit(): void {
     this.inicializarFiltros();
+    this.isAdmin = this.authService.isAdmin;
+    this.idUsuario = this.authService.usuarioId;
   }
 
   filtrarLecturas(): void {
     if (this.fechaInicio && this.fechaCierre) {
       this.cargando = true;
-      this.lecturaService.getLecturasPorRangoDeFecha(this.fechaInicio, this.fechaCierre).subscribe({
-        next: (lecturas) => {
-          this.cargando = false;
-          this.lecturas = lecturas
-        },
-        error: (err: HttpErrorResponse) => {
-          this.cargando = false;
-          if (err.status == 400) {
-            Swal.fire('Error', err.error.error, 'error');
-          } else {
-            throw err;
+      if (this.isAdmin) {
+        this.lecturaService.getLecturasPorRangoDeFecha(this.fechaInicio, this.fechaCierre).subscribe({
+          next: (lecturas) => {
+            this.cargando = false;
+            this.lecturas = lecturas
+          },
+          error: (err: HttpErrorResponse) => {
+            this.cargando = false;
+            if (err.status == 400) {
+              Swal.fire('Error', err.error.error, 'error');
+            } else {
+              throw err;
+            }
           }
-        }
-      })
+        })
+      } else {
+        this.lecturaService.getLecturasPorRangoDeFechaYUsuario(this.fechaInicio, this.fechaCierre, this.idUsuario).subscribe({
+          next: (lecturas) => {
+            this.cargando = false;
+            this.lecturas = lecturas
+          },
+          error: (err: HttpErrorResponse) => {
+            this.cargando = false;
+            if (err.status == 400) {
+              Swal.fire('Error', err.error.error, 'error');
+            } else {
+              throw err;
+            }
+          }
+        })
+
+      }
     } else {
       Swal.fire('Error', 'Ingrese el rango de fechas', 'error')
     }
@@ -99,13 +120,22 @@ export class ConsultaLecturasComponent implements OnInit {
 
   private _filter(value: string): Observable<Lectura[]> {
     let filterValue = typeof value === 'string' ? value.toLowerCase().trim() : '';
-    console.log('buscando');
+    // console.log('buscando');
+    this.p = 1;
     if (this.fechaInicio && this.fechaCierre) {
       this.cargando = true;
       if (filterValue != '' && filterValue != undefined) {
-        return this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, filterValue, this.numberFilter);
+        if (this.isAdmin) {
+          return this.lecturaService.postConsultaDeClientesPorFiltro(this.fechaInicio, this.fechaCierre, filterValue, this.numberFilter);
+        } else {
+          return this.lecturaService.postConsultaDeClientesPorFiltroPorUsuario(this.fechaInicio, this.fechaCierre, filterValue, this.numberFilter, this.idUsuario);
+        }
       }
-      return this.lecturaService.getLecturasPorRangoDeFecha(this.fechaInicio, this.fechaCierre);
+      if (this.isAdmin) {
+        return this.lecturaService.getLecturasPorRangoDeFecha(this.fechaInicio, this.fechaCierre);
+      } else {
+        return this.lecturaService.getLecturasPorRangoDeFechaYUsuario(this.fechaInicio, this.fechaCierre, this.idUsuario);
+      }
     }
     return of([]);
   }

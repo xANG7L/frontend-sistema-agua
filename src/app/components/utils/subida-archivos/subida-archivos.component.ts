@@ -28,7 +28,7 @@ export class SubidaArchivosComponent {
 
   constructor(
     private _clienteService: ClienteService,
-    private _lecturaService: LecturasService,
+    // private _lecturaService: LecturasService,
   ) {
 
   }
@@ -72,41 +72,42 @@ export class SubidaArchivosComponent {
   }
 
   subidaArchivoLecturas(): void {
-    if (this.excelLecturas) {
-      this.migrandoArchivo = true;
-      this._lecturaService.subidaMasivaDeLecturas(this.excelLecturas).subscribe({
-        next: (event) => {
-          if (event.type === HttpEventType.UploadProgress && event.total) {
-            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
-          } else if (event.type === HttpEventType.Response) {
-            this.migrandoArchivo = false;
-            setTimeout(() => {
-              this.uploadProgress = null;
-              Swal.fire(
-                'Lecturas migradas exitosamente',
-                '',
-                'success'
-              ).then(() => window.location.reload());
-            }, 500);
-          }
-        },
-        error: () => {
-          this.migrandoArchivo = false;
-          this.uploadProgress = null;
-          Swal.fire(
-            'Error al migrar lecturas',
-            '',
-            'warning'
-          )
-        }
-      })
-    } else {
-      Swal.fire(
-        'Seleccione el archivo de excel',
-        '',
-        'info'
-      );
-    }
+    Swal.fire('Error', 'Servicio no disponible','info');
+    // if (this.excelLecturas) {
+    //   this.migrandoArchivo = true;
+    //   this._lecturaService.subidaMasivaDeLecturas(this.excelLecturas).subscribe({
+    //     next: (event) => {
+    //       if (event.type === HttpEventType.UploadProgress && event.total) {
+    //         this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+    //       } else if (event.type === HttpEventType.Response) {
+    //         this.migrandoArchivo = false;
+    //         setTimeout(() => {
+    //           this.uploadProgress = null;
+    //           Swal.fire(
+    //             'Lecturas migradas exitosamente',
+    //             '',
+    //             'success'
+    //           ).then(() => window.location.reload());
+    //         }, 500);
+    //       }
+    //     },
+    //     error: () => {
+    //       this.migrandoArchivo = false;
+    //       this.uploadProgress = null;
+    //       Swal.fire(
+    //         'Error al migrar lecturas',
+    //         '',
+    //         'warning'
+    //       )
+    //     }
+    //   })
+    // } else {
+    //   Swal.fire(
+    //     'Seleccione el archivo de excel',
+    //     '',
+    //     'info'
+    //   );
+    // }
   }
 
   onFileClientesSelected(event: Event): void {

@@ -50,9 +50,9 @@
                             sistema OPTIMO <br>
                             <b>Asegurese de elegir el archivo excel correcto</b> <br>
                         </p>
-                        <p class="card-text text-danger">
+                        <!-- <p class="card-text text-danger">
                             El sistema eliminara todas las lecturas de la nube
-                        </p>
+                        </p> -->
                         <input type="file" (change)="onFileLecturasSelected($event)" accept=".xlsx"
                             class="form-control mb-4">
                         <button (click)="subidaArchivoLecturas()" [disabled]="migrandoArchivo"

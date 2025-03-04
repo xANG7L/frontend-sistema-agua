@@ -94,9 +94,9 @@ export class FormLecturaComponent implements OnInit {
             icon: "success",
             draggable: true
           });
-          this.lectura = new Lectura();
           lecturaForm.resetForm();
-
+          this.lectura = new Lectura();
+          this.lectura.fechaLectura = this.fechaActual();
         },
         error: err => {
           if (err.status == 400) {

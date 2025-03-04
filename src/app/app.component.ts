@@ -22,48 +22,48 @@ export class AppComponent implements OnInit {
   title = 'frontend-sistema-agua';
 
   constructor(
-    private sharingData: SharingDataService,
-    private authService: AuthService,
-    private router: Router
+    // private sharingData: SharingDataService,
+    // private authService: AuthService,
+    // private router: Router
   ) {
 
   }
   ngOnInit(): void {
-    this.handlerLogin();
+    // this.handlerLogin();
   }
 
   handlerLogin(): void {
-    this.sharingData.handlerLoginEventEmitter.subscribe(({ username, password }) => {
+    // this.sharingData.handlerLoginEventEmitter.subscribe(({ username, password }) => {
       // nada
-      this.authService.login(username, password).subscribe({
-        next: (res) => {
-          console.log(res);
-          const credencial: Credencial = new Credencial();
-          credencial.usuario = res.usuario as Usuario;
-          credencial.isAuth = true;
-          credencial.admin = res.admin;
-          this.authService.credenciales = credencial;
-          Swal.fire(
-            'Bienvenido al sistema',
-            '',
-            'success'
-          )
-          if (this.authService.isAdmin) {
-            this.router.navigate(['/menu']);
-          } else {
-            this.router.navigate(['/ingreso-lectura']);
-          }
-        },
-        error: (err: HttpErrorResponse) => {
-          if (err.status == 401) {
-            Swal.fire('Error', 'Usuario y/o contraseña incorrectas', 'error');
-          } else {
-            Swal.fire('Error', 'Error inesperado, intentelo mas tarde', 'error');
-            throw err;
-          }
-        }
-      })
-    });
+      // this.authService.login(username, password).subscribe({
+      //   next: (res) => {
+      //     console.log(res);
+      //     const credencial: Credencial = new Credencial();
+      //     credencial.usuario = res.usuario as Usuario;
+      //     credencial.isAuth = true;
+      //     credencial.admin = res.admin;
+      //     this.authService.credenciales = credencial;
+      //     Swal.fire(
+      //       'Bienvenido al sistema',
+      //       '',
+      //       'success'
+      //     )
+      //     if (this.authService.isAdmin) {
+      //       this.router.navigate(['/menu']);
+      //     } else {
+      //       this.router.navigate(['/ingreso-lectura']);
+      //     }
+      //   },
+      //   error: (err: HttpErrorResponse) => {
+      //     if (err.status == 401) {
+      //       Swal.fire('Error', 'Usuario y/o contraseña incorrectas', 'error');
+      //     } else {
+      //       Swal.fire('Error', 'Error inesperado, intentelo mas tarde', 'error');
+      //       throw err;
+      //     }
+      //   }
+      // })
+    // });
   }
 
 }

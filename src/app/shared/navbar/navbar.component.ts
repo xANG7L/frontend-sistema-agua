@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-navbar',
@@ -21,7 +22,20 @@ export class NavbarComponent {
   }
 
   cerrarSesion(): void {
-    this.authService.logOut();
+    Swal.fire({
+      title: "Alerta",
+      text: "¿Deseas cerrar sesión?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.logOut();
+      }
+    });
   }
 
   isAuth(): boolean {

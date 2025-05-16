@@ -4,12 +4,14 @@ import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms';
 import { LecturasService } from '../../../services/lecturas.service';
 import { HttpEventType } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-subida-archivos',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './subida-archivos.component.html',
   styleUrl: './subida-archivos.component.css'
@@ -131,4 +133,45 @@ export class SubidaArchivosComponent {
       console.log(archivo.files[0].name);
     }
   }
+
+// Método para manejar la selección de archivos
+  onFileSelected(event: Event, fileNum: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (!file.name.endsWith('.xlsx')) {
+        alert('¡Solo se permiten archivos .xlsx!');
+        return;
+      }
+      switch(fileNum){
+        case "01": {
+          this.excelClientes = file;
+          this.subidaArchivoClientes();
+          break;
+        }
+        case "03": {
+          this.excelLecturas = file;
+          this.subidaArchivoLecturas();
+          break;
+        }
+        default: {
+          Swal.fire('Atencion', 'La opcion seleccionada no esta disponible ahorita', 'info')
+        }
+      }
+      //this.showFileAlert(file, itemName);
+      // Trabajar con el archivo...
+    } 
+  }
+
+  // Método para mostrar el alert con el nombre del archivo
+  showFileAlert(file: File, itemName: string): void {
+    alert(`Archivo seleccionado para ${itemName}:\n\nNombre: ${file.name}\nTamaño: ${(file.size / 1024).toFixed(2)} KB`);
+    console.log('Objeto File:', file); // Para debug en consola
+  }
+
+  // Método para simular el clic en el input file
+  triggerFileInput(input: HTMLInputElement): void {
+    input.click(); // Abre el explorador de archivos
+  }
+
 }

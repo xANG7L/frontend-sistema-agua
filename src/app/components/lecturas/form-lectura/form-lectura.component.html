@@ -1,51 +1,72 @@
-<div class="container my-4 bg-white rounded shadow-lg py-mb-4 mb-4 p-4"
-    style="border-top: 7px solid var(--color-principal);">
-    <h3 class="text-center">{{ lectura.id > 0 ? 'MODIFICACION ': 'INGRESO ' }} DE LECTURA</h3>
-    <hr>
-    <!-- <filtro-clientes (comunidadEventEmitter)="setearComunidad($event)" /> -->
-    <form #lecturaForm='ngForm' class="row mb-3" (ngSubmit)="onSubmit(lecturaForm)">
-        <datos-cliente [cliente]="this.lectura.cliente" (clienteEventEmitter)="setearCliente($event)" />
-        @if (errors.cliente) {
-        <div class="text-danger mb-3">
-            {{errors.cliente}}
+<div class="container py-4">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/menu']">Menu</a></li>
+            <li class="breadcrumb-item" aria-current="page">Lecturas</li>
+            <li class="breadcrumb-item" aria-current="page">Ingreso de lecturas</li>
+        </ol>
+    </nav>
+
+    <div class="card my-3 shadow-lg" style="border-top: 4px solid var(--color-principal);">
+        <h3 class="card-header h4 text-center">{{ lectura.id > 0 ? 'Modificación ': 'Ingreso ' }} de lectura de medidor
+        </h3>
+        <div class="card-body">
+            <form #lecturaForm='ngForm' class="row my-3" (ngSubmit)="onSubmit(lecturaForm)">
+                <datos-cliente [cliente]="this.lectura.cliente" (clienteEventEmitter)="setearCliente($event)"
+                    autofocus="1" />
+                @if (errors.cliente) {
+                <div class="text-danger mb-3">
+                    {{errors.cliente}}
+                </div>
+                }
+                <!-- <div class="row"> -->
+                <div class="col-12 col-lg-6 mb-4">
+                    <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
+                    <input class="form-control" autofocus="2" [(ngModel)]="lectura.fechaLectura" name="fechaLectura"
+                        id="txt-fechaLectura" #fechaLectura='ngModel' required type="date">
+                </div>
+                <!-- @if (isAdmin) {
+                <div class="col-12 col-lg-6 mb-4">
+                    <label class="label-form-control" for="txt-lecturaActual">Lectura anterior:</label>
+                    <input class="form-control" [(ngModel)]="lectura.lecturaAnterior" id="txt-lecturaActual"
+                        name="lecturaAnterior" #lecturaAnterior='ngModel' required type="number">
+                    @if (errors.lecturaActual) {
+                    <div class="text-danger">
+                        {{errors.lecturaActual}}
+                    </div>
+                    }
+                </div>
+                } -->
+                <div class="col-12 col-lg-6 mb-4">
+                    <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
+                    <input class="form-control" autofocus="3" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual"
+                        name="lecturaActual" #lecturaActual='ngModel' required type="number">
+                    @if (errors.lecturaActual) {
+                    <div class="text-danger">
+                        {{errors.lecturaActual}}
+                    </div>
+                    }
+                </div>
+                <div class="col-12 mb-3">
+                    <button type="submit" [disabled]="this.ingresando" class="btn btn-dark w-100">{{ lectura.id > 0
+                        ? 'Modificar ': 'Registrar ' }}
+                        lectura</button>
+                    @if (ingresando) {
+                    <div class="text-primary text-center mt-2">
+                        Ingresando lectura... espere.
+                    </div>
+                    }
+
+                    @if (errors.error) {
+                        <div class="mt-2 text-center text-danger">
+                            {{ errors.error }}
+                            <br>
+                            Comuniquese con el administrador
+                        </div>
+                    }
+                </div>
+            </form>
         </div>
-        }
-        <!-- <div class="row"> -->
-        <div class="col-12 col-lg-6 mb-4">
-            <label class="label-form-control" for="txt-fechaLectura">Fecha de lectura:</label>
-            <input class="form-control" [(ngModel)]="lectura.fechaLectura" name="fechaLectura" id="txt-fechaLectura"
-                #fechaLectura='ngModel' required type="date">
-        </div>
-        <!-- @if (isAdmin) {
-        <div class="col-12 col-lg-6 mb-4">
-            <label class="label-form-control" for="txt-lecturaActual">Lectura anterior:</label>
-            <input class="form-control" [(ngModel)]="lectura.lecturaAnterior" id="txt-lecturaActual"
-                name="lecturaAnterior" #lecturaAnterior='ngModel' required type="number">
-            @if (errors.lecturaActual) {
-            <div class="text-danger">
-                {{errors.lecturaActual}}
-            </div>
-            }
-        </div>
-        } -->
-        <div class="col-12 col-lg-6 mb-4">
-            <label class="label-form-control" for="txt-lecturaActual">Lectura:</label>
-            <input class="form-control" [(ngModel)]="lectura.lecturaActual" id="txt-lecturaActual" name="lecturaActual"
-                #lecturaActual='ngModel' required type="number">
-            @if (errors.lecturaActual) {
-            <div class="text-danger">
-                {{errors.lecturaActual}}
-            </div>
-            }
-        </div>
-        <div class="col-12 mb-4">
-            <button type="submit" [disabled]="lecturaForm.invalid" class="btn btn-dark w-100">{{ lectura.id > 0
-                ? 'Modificar ': 'Registrar ' }}
-                lectura</button>
-        </div>
-        <!-- </div> -->
-    </form>
-</div>
-<div class="my-2">
-    <hr style="color: transparent;">
+    </div>
+
 </div>

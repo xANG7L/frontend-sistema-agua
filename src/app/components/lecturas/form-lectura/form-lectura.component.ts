@@ -6,8 +6,9 @@ import { Comunidad } from '../../../models/comunidad';
 import { Cliente } from '../../../models/cliente';
 import { LecturasService } from '../../../services/lecturas.service';
 import Swal from 'sweetalert2';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { Utils } from '../../../utils/utils';
 
 @Component({
   selector: 'app-form-lectura',
@@ -15,7 +16,8 @@ import { AuthService } from '../../../services/auth.service';
   imports: [
     DatosClienteComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './form-lectura.component.html',
   styleUrl: './form-lectura.component.css'
@@ -30,13 +32,14 @@ export class FormLecturaComponent implements OnInit {
 
   errors: any = {};
 
+  ingresando: boolean = false;
+
   constructor(
     private service: LecturasService,
     private route: ActivatedRoute,
     private router: Router,
     private authServie: AuthService
   ) {
-    //this.obtenerFechaActual();
   }
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -44,7 +47,7 @@ export class FormLecturaComponent implements OnInit {
       if (id > 0) {
         this.consultarProducto(id);
       } else {
-        this.lectura.fechaLectura = this.fechaActual();
+        this.lectura.fechaLectura = Utils.getFechaActual();
       }
     })
     this.isAdmin = this.authServie.isAdmin;
@@ -57,14 +60,16 @@ export class FormLecturaComponent implements OnInit {
 
   fechaActual(): any {
     return new Date().toISOString().slice(0, 10);
-  }  
+  }
 
   onSubmit(lecturaForm: NgForm): void {
-    console.log(this.lectura);
+    this.errors = {};
+    this.ingresando = true;
     if (this.lectura.id > 0) {
       this.service.putActualizarLectura(this.lectura).subscribe({
         next: () => {
           this.errors = {};
+          this.ingresando = false;
           Swal.fire({
             title: "Lectura actualizada!",
             icon: "success",
@@ -76,7 +81,8 @@ export class FormLecturaComponent implements OnInit {
         },
         error: (err) => {
           if (err.status == 400) {
-            //console.log('error 400')
+            
+            this.ingresando = false;
             this.errors = err.error;
           } else {
             alert('lectura no actualizada, revize la consola')
@@ -87,7 +93,6 @@ export class FormLecturaComponent implements OnInit {
     } else {
       this.service.postLectura(this.lectura, this.authServie.usuarioId).subscribe({
         next: () => {
-          //alert('Lectura aniadida')
           this.errors = {};
           Swal.fire({
             title: "Lectura registrada!",
@@ -96,11 +101,14 @@ export class FormLecturaComponent implements OnInit {
           });
           lecturaForm.resetForm();
           this.lectura = new Lectura();
+          this.ingresando = false;
           this.lectura.fechaLectura = this.fechaActual();
         },
         error: err => {
           if (err.status == 400) {
-            //console.log('error 400')
+            console.log('error 400')
+            console.log(err)
+            this.ingresando = false;
             this.errors = err.error;
           } else {
             alert('lectura no ingresada, revize la consola')

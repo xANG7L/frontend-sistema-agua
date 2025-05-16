@@ -1,114 +1,121 @@
-<div class="container py-sm-2 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
-    style="border-top: 5px solid var(--color-principal);">
-    <div class="p-2 p-md-4">
-        <h3 class="h3 text-center"> {{ isAdmin ? 'CONSULTA DE LECTURAS INGRESADAS' : 'CONSULTA DE SUS LECTURAS INGRESADAS' }} </h3>
-        <hr>
-        <div class="row">
-            <div class="col-12 col-lg-4 mb-3">
-                <label for="txt-fecha" class="col-form-label">
-                    Fecha de inicio:
-                </label>
-                <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaInicio">
-            </div>
-            <div class="col-12 col-lg-4 mb-3">
-                <label for="txt-fecha" class="col-form-label">
-                    Fecha de cierre:
-                </label>
-                <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaCierre">
-            </div>
-            <div class="col-12 col-lg-2 mb-3 align-self-end">
-                <button type="button" (click)="filtrarLecturas()" class="w-100 btn btn-dark">
-                    Filtrar
-                </button>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-12 col-lg-4 mb-3">
-                <select id="inputState" [disabled]="!fechaInicio || !fechaCierre" [(ngModel)]="numberFilter"
-                    class="form-select">
-                    @for (opcion of parametrosBusqueda; track $index) {
-                    <option [value]="opcion.filter">{{ opcion.name }}</option>
-                    }
-                </select>
-            </div>
-            <div class="col-12 col-lg-8 mb-3 mb-3">
-                <input type="text" [disabled]="!fechaInicio || !fechaCierre" (keyup)="onKeyUp($event)"
-                    class="form-control" placeholder="Busqueda de clientes por nombre" id="">
-            </div>
-        </div>
-        @if (cargando) {
-        <div class="d-flex justify-content-center">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        } @else {
-        @if (lecturas.length > 0) {
-        <div class="table-responsive">
-            <table class="table table-hover table-bordered">
-                <thead class="table-primary align-middle">
-                    <tr>
-                        <th>Fecha Lectura</th>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Medidor</th>
-                        <th>Comunidad</th>
-                        @if (isAdmin) {
-                        <th>Lectura anterior</th>
-                        <th>Lectura actual</th>
-                        <th>Consumo</th>
-                        } @else {
-                        <th>Lectura</th>
-                        }
-                        <th>Accion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (lectura of lecturas| paginate: { itemsPerPage: 10, currentPage: p }; track $index) {
-                    <tr>
-                        <td>{{lectura.fechaLectura | date:'dd/MM/yyyy'}}</td>
-                        <td>{{lectura.cliente.codigo}}</td>
-                        <td>{{lectura.cliente.nombre}}</td>
-                        <td>{{lectura.cliente.medidor}}</td>
-                        <td>{{ lectura.cliente.comunidadStr }}</td>
-                        @if (isAdmin) {
-                        <td>{{ lectura.lecturaAnterior }}</td>
-                        <td>{{ lectura.lecturaActual }}</td>
-                        <td>{{ lectura.lecturaActual - lectura.lecturaAnterior }}</td>
-                        } @else {
-                        <td>{{ lectura.lecturaActual }}</td>
-                        }
-                        <td>
-                            <div class="btn-group btn-group-sm">
-                                <button type="button" (click)="actualizarLecturaEvt(lectura.id)"
-                                    class="btn btn-outline-primary" matTooltip="Editar lectura">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="mt-3 text-end">
-            <pagination-controls (pageChange)="p = $event" previousLabel="Anterior"
-                nextLabel="Siguiente"></pagination-controls>
-        </div>
-        } @else {
-        <div class="alert alert-warning text-center">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            No hay lecturas ingresadas!
-        </div>
-        }
-        <!-- <hr> -->
-        <div class="h6">
-            Número de lecturas: {{ lecturas.length }}
-        </div>
+<div class="container py-4">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/menu']">Menu</a></li >
+            <li class="breadcrumb-item" aria-current="page">Lecturas</li>
+            <li class="breadcrumb-item" aria-current="page">Consulta de lecturas</li>
+        </ol>
+    </nav>
 
-        }
+
+    <div class="card shadow-lg" style="border-top: 4px solid var(--color-principal);">
+        <h3 class="h4 text-center card-header"> {{ isAdmin ? 'Consulta de lecturas ingresadas' : 'Consulta de sus lecturas ingresadas' }} </h3>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-lg-4 mb-3">
+                    <label for="txt-fecha" class="col-form-label">
+                        Fecha de inicio:
+                    </label>
+                    <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaInicio">
+                </div>
+                <div class="col-12 col-lg-4 mb-3">
+                    <label for="txt-fecha" class="col-form-label">
+                        Fecha de cierre:
+                    </label>
+                    <input id="txt-fecha" type="date" class="form-control" [(ngModel)]="fechaCierre">
+                </div>
+                <div class="col-12 col-lg-2 mb-3 align-self-end">
+                    <button type="button" (click)="filtrarLecturas()" class="w-100 btn btn-dark">
+                        Filtrar
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12 col-lg-4 mb-3">
+                    <select id="inputState" [disabled]="!fechaInicio || !fechaCierre" [(ngModel)]="numberFilter"
+                        class="form-select">
+                        @for (opcion of parametrosBusqueda; track $index) {
+                        <option [value]="opcion.filter">{{ opcion.name }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12 col-lg-8 mb-3 mb-3">
+                    <input type="text" [disabled]="!fechaInicio || !fechaCierre" (keyup)="onKeyUp($event)" class="form-control"
+                        placeholder="Busqueda de clientes por nombre" id="">
+                </div>
+            </div>
+            @if (cargando) {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            } @else {
+            @if (lecturas.length > 0) {
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="table-primary align-middle">
+                        <tr>
+                            <th>Fecha Lectura</th>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Medidor</th>
+                            <th>Comunidad</th>
+                            @if (isAdmin) {
+                            <th>Lectura anterior</th>
+                            <th>Lectura actual</th>
+                            <th>Consumo</th>
+                            } @else {
+                            <th>Lectura</th>
+                            }
+                            <th>Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (lectura of lecturas| paginate: { itemsPerPage: 10, currentPage: p }; track $index) {
+                        <tr>
+                            <td>{{lectura.fechaLectura | date:'dd/MM/yyyy'}}</td>
+                            <td>{{lectura.cliente.codigo}}</td>
+                            <td>{{lectura.cliente.nombre}}</td>
+                            <td>{{lectura.cliente.medidor}}</td>
+                            <td>{{ lectura.cliente.comunidadStr }}</td>
+                            @if (isAdmin) {
+                            <td>{{ lectura.lecturaAnterior }}</td>
+                            <td>{{ lectura.lecturaActual }}</td>
+                            <td>{{ lectura.lecturaActual - lectura.lecturaAnterior }}</td>
+                            } @else {
+                            <td>{{ lectura.lecturaActual }}</td>
+                            }
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" (click)="actualizarLecturaEvt(lectura.id)"
+                                        class="btn btn-outline-primary" matTooltip="Editar lectura">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3 text-end">
+                <pagination-controls (pageChange)="p = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+            } @else {
+            <div class="alert alert-warning text-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                No hay lecturas ingresadas!
+            </div>
+            }
+            <!-- <hr> -->
+            <div class="h6">
+                Número de lecturas: {{ lecturas.length }}
+            </div>
+        
+            }
+        </div>
     </div>
 </div>
-
-<hr style="color: transparent;">

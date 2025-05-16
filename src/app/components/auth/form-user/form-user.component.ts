@@ -6,6 +6,7 @@ import { SharingDataService } from '../../../services/sharing-data.service';
 import { AuthService } from '../../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 export interface IUserForm {
   username: string;
@@ -19,7 +20,8 @@ export interface IUserForm {
   standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './form-user.component.html',
   styleUrl: './form-user.component.css'

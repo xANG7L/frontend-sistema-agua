@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { HttpResponse } from '@angular/common/http';
 import { LecturasService } from '../../../../services/lecturas.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reportes-auxiliares',
   standalone: true,
   imports: [
     MatTooltip,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './reportes-auxiliares.component.html',
   styleUrl: './reportes-auxiliares.component.css'

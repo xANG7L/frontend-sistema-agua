@@ -1,84 +1,148 @@
-<div class="container py-sm-2 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
-    style="border-top: 5px solid var(--color-principal);">
-    <div class="p-2 p-md-4">
-        <h1 class="h3 text-center">SUBIDA DE DATOS EN EXCEL GENERADOS EN OPTIMO</h1>
-        <hr>
-        <div class="row row-cols-1 row-cols-lg-3 mt-2 g-2">
-            <div class="col">
-                <div class="card h-100 shadow-lg">
-                    <div class="card-header">
-                        <h5 class="h6 fw-bold mt-2">Subida de datos del maestro de clientes</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Seleccione el archivo de excel de clientes generado en OPTIMO<br>
-                            <b>Asegurese de elegir el archivo correcto</b>
-                        </p>
-                        <input type="file" (change)="onFileClientesSelected($event)" accept=".xlsx"
-                            class="form-control mb-4">
-                        <button (click)="subidaArchivoClientes()" [disabled]="migrandoArchivo"
-                            class="btn btn-success">Subir
-                            excel</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 shadow-lg">
-                    <div class="card-header">
-                        <h5 class="h6 fw-bold mt-2">Subida de excel del maestro de comunidades</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Seleccione el archivo de excel de comunidades generado en OPTIMO<br>
-                            <b>Asegurese de elegir el archivo correcto</b>
-                        </p>
-                        <input type="file" (change)="onFileComunidadesSelected($event)" accept=".xlsx"
-                            class="form-control mb-4">
-                        <button [disabled]="true" class="btn btn-success">Subir
-                            excel</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100 shadow-lg">
-                    <div class="card-header">
-                        <h5 class="h6 fw-bold mt-2">Subida de archivo de lecturas</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Seleccion de archivo de excel para la toma de lecturas del mes y sincronizacion con datos de
-                            sistema OPTIMO <br>
-                            <b>Asegurese de elegir el archivo excel correcto</b> <br>
-                        </p>
-                        <!-- <p class="card-text text-danger">
-                            El sistema eliminara todas las lecturas de la nube
-                        </p> -->
-                        <input type="file" (change)="onFileLecturasSelected($event)" accept=".xlsx"
-                            class="form-control mb-4">
-                        <button (click)="subidaArchivoLecturas()" [disabled]="migrandoArchivo"
-                            class="btn btn-success">Subir
-                            excel</button>
-                    </div>
-                </div>
-            </div>
+<div class="container py-4">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/menu']">Menu</a></li>
+            <li class="breadcrumb-item" aria-current="page">Utilidades</li>
+            <li class="breadcrumb-item" aria-current="page">Subida de ficheros de datos</li>
+        </ol>
+    </nav>
+    <!-- <div class="card" style="border-top: 4px solid var(--color-principal);">
+        <h1 class="h4 card-header text-center">SUBIDA DE DATOS EN EXCEL GENERADOS EN OPTIMO</h1>
+        <div class="card-body"> -->
+    <div class="file-upload-container mt-3">
+        <div class="file-upload-header">
+            <h5 class="mb-0">Subida de datos en excel generados en optimo</h5>
+            <small class="text-muted">Suba los documentos en formato Excel (.xlsx)</small>
         </div>
-    </div>
-</div>
 
-@if (migrandoArchivo) {
-<div class="abrir-modal animacion fadeIn">
-    <div class="modal" style="display: block;" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body p-4 text-center">
-                    <div style="width: 4rem; height: 4rem" class="spinner-border text-success" role="status">
-                        <span class="visually-hidden">Cargando...</span>
+        <!-- Lista de archivos -->
+        <ol class="file-upload-list mt-3">
+            <!-- Item 1 -->
+            <li class="list-group-item d-flex justify-content-between align-items-end">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Archivo de maestro de clientes</div>
+                    Seleccione el archivo de excel de clientes generado en OPTIMO
+                </div>
+                <button class="btn btn-success btn-sm" (click)="triggerFileInput(clienteFileInput)"> 
+                    <!-- (click)="triggerFileInput(deptFileInput)" -->
+                    <i class="fa-solid fa-file-excel"></i> Subir
+                </button>
+                <input #clienteFileInput type="file" class="d-none" accept=".xlsx"
+                    (change)="onFileSelected($event, '01')"
+                >
+                <!-- (change)="onFileSelected($event, 'Departamentos')" -->
+            </li>
+            <hr>
+            <!-- Item 2 -->
+            <li class="list-group-item d-flex justify-content-between align-items-end">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Archivo de excel del maestro de comunidades</div>
+                    Seleccione el archivo de excel de comunidades generados en optimo
+                </div>
+                <button [disabled]="true" class="btn btn-success btn-sm">
+                    <!-- (click)="triggerFileInput(empFileInput)" -->
+                    <i class="fa-solid fa-file-excel"></i> Subir
+                </button>
+                <input #empFileInput type="file" class="d-none" accept=".xlsx">
+                <!-- (change)="onFileSelected($event, 'Empleados')" -->
+            </li>
+            <hr>
+            <li class="list-group-item d-flex justify-content-between align-items-end">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">Archivo de excel de lecturas</div>
+                    Seleccione el archivo de excel de lecturas generados en optimo. Para sincronizar datos de lecturas luego de haber emitido los recibos del mes
+                </div>
+                <button class="btn btn-success btn-sm" (click)="triggerFileInput(lecturasFileInput)">
+                    <i class="fa-solid fa-file-excel"></i> Subir
+                </button>
+                <input #lecturasFileInput type="file" class="d-none" accept=".xlsx"
+                    (change)="onFileSelected($event, '03')" >
+                <!-- (change)="onFileSelected($event, 'Empleados')" -->
+            </li>
+            <hr>
+        </ol>
+    </div>
+    <!--                    <div class="row row-cols-1 row-cols-lg-3 mt-2 g-2">
+
+         
+                <div class="col">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-header">
+                            <h5 class="h6 fw-bold mt-2">Subida de datos del maestro de clientes</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Seleccione el archivo de excel de clientes generado en OPTIMO<br>
+                                <b>Asegurese de elegir el archivo correcto</b>
+                            </p>
+                            <input type="file" (change)="onFileClientesSelected($event)" accept=".xlsx"
+                                class="form-control mb-4">
+                            <button (click)="subidaArchivoClientes()" [disabled]="migrandoArchivo"
+                                class="btn btn-success">Subir
+                                excel</button>
+                        </div>
                     </div>
-                    <p class="mt-3 fw-bold text-center">Procesando archivo, este proceso puede demorar unos minutos...
-                    </p>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-header">
+                            <h5 class="h6 fw-bold mt-2">Subida de excel del maestro de comunidades</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Seleccione el archivo de excel de comunidades generado en OPTIMO<br>
+                                <b>Asegurese de elegir el archivo correcto</b>
+                            </p>
+                            <input type="file" (change)="onFileComunidadesSelected($event)" accept=".xlsx"
+                                class="form-control mb-4">
+                            <button [disabled]="true" class="btn btn-success">Subir
+                                excel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-lg">
+                        <div class="card-header">
+                            <h5 class="h6 fw-bold mt-2">Subida de archivo de lecturas</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Seleccion de archivo de excel para la toma de lecturas del mes y sincronizacion con
+                                datos de
+                                sistema OPTIMO <br>
+                                <b>Asegurese de elegir el archivo excel correcto</b> <br>
+                            </p>
+                            <!-- <p class="card-text text-danger">
+                                El sistema eliminara todas las lecturas de la nube
+                            </p> 
+                            <input type="file" (change)="onFileLecturasSelected($event)" accept=".xlsx"
+                                class="form-control mb-4">
+                            <button (click)="subidaArchivoLecturas()" [disabled]="migrandoArchivo"
+                                class="btn btn-success">Subir
+                                excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+    <!-- </div>
+    </div> -->
+
+    @if (migrandoArchivo) {
+    <div class="abrir-modal animacion fadeIn">
+        <div class="modal" style="display: block;" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body p-4 text-center">
+                        <div style="width: 4rem; height: 4rem" class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-3 fw-bold text-center">Procesando archivo, este proceso puede demorar unos
+                            minutos...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    }
 </div>
-}

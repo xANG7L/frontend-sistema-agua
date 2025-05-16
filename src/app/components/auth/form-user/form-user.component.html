@@ -1,47 +1,56 @@
-<div class="container custom-width w-75 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
-    style="border-top: 7px solid var(--color-principal);">
-    <h3 class="pt-4 h4 fw-bold text-center">CREACION DE USUARIOS</h3>
-    <hr>
-    <div class="row mb-3 px-md-2 px-lg-4">
-        <form #userForm='ngForm' (ngSubmit)="onSubmit(userForm)">
-            <div class="row">
-                <div class="col-12 col-md-6 col-xl-4 mb-4">
-                    <label class="label-form-control" for="txt-username">Usuario:</label>
-                    <input class="form-control" [(ngModel)]="user.username" name="username" id="txt-username"
-                        #username='ngModel' placeholder="Nombre de usuario" required>
-                    @if (errors.username) {
-                    <div class="text-danger">
-                        {{ errors.username }}
+<div class="container py-4 custom-width w-75">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="['/menu']">Menu</a></li>
+            <li class="breadcrumb-item" aria-current="page">Utilidades</li>
+            <li class="breadcrumb-item" aria-current="page">Crear usuario</li>
+        </ol>
+    </nav>
+    <div class="card" style="border-top: 4px solid var(--color-principal);">
+
+        <h3 class="h4 card-header text-center">CREACION DE USUARIOS</h3>
+        <div class="card-body">
+            <div class="row mt-2">
+                <form #userForm='ngForm' (ngSubmit)="onSubmit(userForm)">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-4">
+                            <label class="label-form-control" for="txt-username">Usuario:</label>
+                            <input class="form-control" [(ngModel)]="user.username" name="username" id="txt-username"
+                                #username='ngModel' placeholder="Nombre de usuario" required>
+                            @if (errors.username) {
+                            <div class="text-danger">
+                                {{ errors.username }}
+                            </div>
+                            }
+                        </div>
+                        <div class="col-12 col-lg-6 mb-4">
+                            <label class="label-form-control" for="txt-password">Contraseña:</label>
+                            <input class="form-control" [(ngModel)]="user.password" id="txt-password" name="password"
+                                #password='ngModel' placeholder="Contraseña" required type="password">
+                        </div>
+                        <div class="col-12 mb-4">
+                            <label class="label-form-control" for="txt-nombre">Nombre:</label>
+                            <input class="form-control" [(ngModel)]="user.nombre" id="txt-nombre" name="nombre"
+                                #nombre='ngModel' placeholder="Nombre completo" type="text">
+                        </div>
+                        <div class="col-12 col-md-6 col-xl-4 mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="checkAdmin" name="admin"
+                                    [(ngModel)]="user.admin" #admin='ngModel'>
+                                <label class="form-check-label" for="checkAdmin">
+                                    Usuario administrador
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-4">
+                            <button type="submit" [disabled]="creando" [disabled]="userForm.invalid"
+                                class="btn btn-dark w-100">{{creando ? 'Creando usuario' : 'Crear usuario'}}</button>
+                        </div>
                     </div>
-                    }
-                </div>
-                <div class="col-12 col-md-6 col-xl-4 mb-4">
-                    <label class="label-form-control" for="txt-password">Contraseña:</label>
-                    <input class="form-control" [(ngModel)]="user.password" id="txt-password" name="password"
-                        #password='ngModel' placeholder="Contraseña" required type="password">
-                </div>
-                <div class="col-12 mb-4">
-                    <label class="label-form-control" for="txt-nombre">Nombre:</label>
-                    <input class="form-control" [(ngModel)]="user.nombre" id="txt-nombre" name="nombre"
-                        #nombre='ngModel' placeholder="Nombre completo" type="text">
-                </div>
-                <div class="col-12 col-md-6 col-xl-4 mb-4">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkAdmin" name="admin"
-                            [(ngModel)]="user.admin" #admin='ngModel'>
-                        <label class="form-check-label" for="checkAdmin">
-                            Usuario administrador
-                        </label>
-                    </div>
-                </div>
-                <div class="col-12 mb-4">
-                    <button type="submit" [disabled]="creando" [disabled]="userForm.invalid"
-                        class="btn btn-dark w-100">{{creando ? 'Creando usuario' : 'Crear usuario'}}</button>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-<div class="my-2">
-    <hr style="color: transparent;">
-</div>
+<!-- <div class="container custom-width w-75 my-4 bg-white rounded shadow-lg py-mb-4 mb-4"
+    style="border-top: 7px solid var(--color-principal);"> -->

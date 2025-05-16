@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Lectura } from '../../../models/lectura';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { LecturasService } from '../../../services/lecturas.service';
@@ -12,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
 import { IParamsClientes } from '../../../interfaces/iparams.interface';
 import { debounceTime, distinctUntilChanged, exhaustMap, map, Observable, of, Subject } from 'rxjs';
 import { MatInput } from '@angular/material/input';
+import { Utils } from '../../../utils/utils';
 
 @Component({
   selector: 'consulta-lecturas',
@@ -22,6 +23,7 @@ import { MatInput } from '@angular/material/input';
     DatePipe,
     MatTooltipModule,
     ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './consulta-lecturas.component.html',
   styleUrl: './consulta-lecturas.component.css'
@@ -71,6 +73,8 @@ export class ConsultaLecturasComponent implements OnInit {
     private lecturaService: LecturasService,
     private authService: AuthService
   ) {
+    this.fechaInicio = Utils.getFechaActual();
+    this.fechaCierre = Utils.getFechaActual();
   }
   ngOnInit(): void {
     this.inicializarFiltros();
